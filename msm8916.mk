@@ -75,10 +75,8 @@ PRODUCT_PACKAGES += \
     android.hardware.audio.common@6.0 \
     android.hardware.audio.common@6.0-util \
     android.hardware.audio.effect@2.0-impl \
-    android.hardware.audio.effect@2.0-service \
     android.hardware.audio.effect@6.0 \
     android.hardware.audio.effect@6.0-impl \
-    android.hardware.bluetooth.a2dp@1.0-impl \
     android.hardware.bluetooth.audio@2.0-impl \
     audio.bluetooth.default \
     audio.primary.msm8916 \
@@ -118,8 +116,7 @@ PRODUCT_COPY_FILES += \
 # HIDL
 PRODUCT_PACKAGES += \
     android.hidl.base@1.0 \
-    android.hidl.manager@1.0 \
-    android.hidl.manager@1.0-java
+    android.hidl.manager@1.0
 
 # DRM
 PRODUCT_PACKAGES += \
@@ -137,7 +134,6 @@ PRODUCT_PACKAGES += \
     android.hardware.memtrack@1.0-impl \
     android.hardware.memtrack@1.0-service \
     android.hardware.renderscript@1.0-impl \
-    android.hardware.renderscript@1.0-service \
     gralloc.msm8916 \
     hwcomposer.msm8916 \
     memtrack.msm8916 \
@@ -189,9 +185,7 @@ PRODUCT_ENFORCE_VINTF_MANIFEST_OVERRIDE := true
 
 PRODUCT_PACKAGES += \
     libhidltransport \
-    libhidltransport.vendor \
-    libhwbinder \
-    libhwbinder.vendor
+    libhwbinder
 
 # Telephony
 PRODUCT_PACKAGES += \
@@ -339,7 +333,6 @@ PRODUCT_PACKAGES += \
     android.hardware.wifi@1.0-service \
     libqsap_sdk \
     libwpa_client \
-    wifilogd \
     wcnss_service
 
 PRODUCT_COPY_FILES += \
