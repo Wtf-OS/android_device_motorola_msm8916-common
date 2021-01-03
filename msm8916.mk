@@ -217,10 +217,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.light@2.0-service.msm8916
 
-# LineageActions
-PRODUCT_PACKAGES += \
-    LineageActions
-
 # LiveDisplay
 PRODUCT_PACKAGES += \
     vendor.lineage.livedisplay@2.0-service-sysfs
