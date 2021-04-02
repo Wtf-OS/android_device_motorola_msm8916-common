@@ -180,9 +180,6 @@ TARGET_LD_PRELOAD := \
 # Peripheral manager
 TARGET_PER_MGR_ENABLED := true
 
-# Power
-TARGET_USES_INTERACTION_BOOST := true
-
 # Wifi
 BOARD_HAS_QCOM_WLAN := true
 BOARD_WLAN_DEVICE := qcwcn
