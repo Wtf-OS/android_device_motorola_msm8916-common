@@ -146,8 +146,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.radio.sib16_support=1 \
     persist.vendor.radio.snapshot_timer=22 \
     persist.vendor.radio.snapshot_enabled=1 \
-    rild.libargs=-d/dev/smd0 \
-    rild.libpath=/vendor/lib/libril-qc-qmi-1.so \
+    vendor.rild.libargs=-d/dev/smd0 \
+    vendor.rild.libpath=/vendor/lib/libril-qc-qmi-1.so \
     ro.telephony.call_ring.multiple=false
 
 # RmNet Data
