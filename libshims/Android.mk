@@ -25,6 +25,15 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_VENDOR_MODULE := true
 include $(BUILD_SHARED_LIBRARY)
 
+include $(CLEAR_VARS)
+LOCAL_SRC_FILES := SensorManager.cpp
+LOCAL_CFLAGS := -Wno-unused-parameter
+LOCAL_SHARED_LIBRARIES := libutils libsensor
+LOCAL_MODULE := libshims_sensor
+LOCAL_MODULE_TAGS := optional
+LOCAL_VENDOR_MODULE := true
+include $(BUILD_SHARED_LIBRARY)
+
 # RIL + Qsap Shim
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES := ASensorManager.cpp libqsap_shim.c
