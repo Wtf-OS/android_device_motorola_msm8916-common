@@ -14,19 +14,20 @@
         android:allowBackup="true"
         android:label="@string/device_settings_app_name"
         android:persistent="true">
-        <receiver android:name="org.lineageos.settings.device.BootCompletedReceiver">
+        <receiver android:name="org.lineageos.settings.device.BootCompletedReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <service android:name="ServiceWrapper" android:permission="ServiceWrapper">
+        <service android:name="ServiceWrapper" android:permission="ServiceWrapper" android:exported="true">
             <intent-filter>
                 <action android:name="ServiceWrapper"/>
             </intent-filter>
         </service>
         <activity
             android:name=".DozePreferenceActivity"
+            android:exported="true"
             android:label="@string/ambient_display_gestures_title"
             android:theme="@style/LineageActions">
             <intent-filter>
@@ -41,6 +42,7 @@
         </activity>
         <activity
             android:name=".ActionsPreferenceActivity"
+            android:exported="true"
             android:label="@string/actions_label"
             android:theme="@style/LineageActions">
             <intent-filter>
