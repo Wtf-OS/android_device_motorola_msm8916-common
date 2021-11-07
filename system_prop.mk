@@ -164,7 +164,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # System
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.binary_xml=false
+    persist.sys.binary_xml=false \
+    ro.vndk.version=current
 
 # Timeout failed shutdowns
 PRODUCT_PROPERTY_OVERRIDES += \
