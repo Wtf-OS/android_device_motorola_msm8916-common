@@ -46,3 +46,12 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_VENDOR_MODULE := true
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
 include $(BUILD_SHARED_LIBRARY)
+
+# IMS
+include $(CLEAR_VARS)
+LOCAL_SRC_FILES := ImsShim.cpp
+LOCAL_CFLAGS := -Wno-unused-parameter
+LOCAL_MODULE := libshims_ims
+LOCAL_MODULE_TAGS := optional
+LOCAL_VENDOR_MODULE := true
+include $(BUILD_SHARED_LIBRARY)
