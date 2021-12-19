@@ -17,7 +17,7 @@ LOCAL_PATH := $(call my-dir)
 
 # Camera
 include $(CLEAR_VARS)
-LOCAL_SRC_FILES := MediaCodec.cpp AudioSource.cpp MetaData.cpp SensorManager.cpp
+LOCAL_SRC_FILES := MediaCodec.cpp AudioSource.cpp MetaData.cpp SensorManager.cpp MediaMuxer.cpp
 LOCAL_SHARED_LIBRARIES := libstagefright libmedia libutils libsensor
 LOCAL_CFLAGS := -Wno-unused-parameter
 LOCAL_MODULE := libshims_camera
