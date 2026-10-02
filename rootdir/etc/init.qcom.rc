@@ -95,6 +95,12 @@ on early-boot
     start vendor.qseecomd
     
 on boot
+    # WtfOS: 1GB RAM + zram. Stock swappiness=100 swaps app pages instead of
+    # dropping file cache, kswapd spins at 100% and input latency exceeds 1s
+    # (power press misfires as long-press). Prefer cache reclaim, keep headroom.
+    write /proc/sys/vm/swappiness 60
+    write /proc/sys/vm/min_free_kbytes 8192
+
     #Create QMUX deamon socket area
     mkdir /dev/socket/qmux_radio 0770 radio radio
     chmod 2770 /dev/socket/qmux_radio
