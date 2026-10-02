@@ -26,6 +26,7 @@ DEVICE_PACKAGE_OVERLAYS += \
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/default-permissions-bluetooth.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/default-permissions/default-permissions-bluetooth.xml \
     frameworks/native/data/etc/android.hardware.audio.low_latency.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.low_latency.xml \
     frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \
     frameworks/native/data/etc/android.hardware.bluetooth_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth_le.xml \
@@ -79,12 +80,12 @@ PRODUCT_PACKAGES += \
     android.hardware.audio.effect@6.0-impl \
     android.hardware.bluetooth.audio@2.0-impl \
     audio.bluetooth.default \
-    audio.primary.msm8916 \
     audio.r_submix.default \
     audio.usb.default \
     libaudio-resampler \
-    libqcomvisualizer \
-    libqcomvoiceprocessing
+    libtinycompress \
+    libaudioroute \
+    libtinyalsa
 
 PRODUCT_COPY_FILES +=  \
     $(LOCAL_PATH)/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
@@ -98,7 +99,8 @@ PRODUCT_COPY_FILES +=  \
 
 # Bluetooth
 PRODUCT_PACKAGES += \
-    android.hardware.bluetooth@1.0.vendor
+    android.hardware.bluetooth@1.0.vendor \
+    libhidlbase_shim
 
 # Camera
 PRODUCT_PACKAGES += \
@@ -106,7 +108,6 @@ PRODUCT_PACKAGES += \
     camera.device@1.0-impl \
     camera.msm8916 \
     libc_util \
-    libboringssl-compat \
     libshims_camera \
     Camera2
 
@@ -122,7 +123,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.0-impl \
     android.hardware.drm@1.0-service \
-    android.hardware.drm@1.4-service.clearkey \
     android.hardware.drm@1.3.vendor
 
 # Display
@@ -134,9 +134,6 @@ PRODUCT_PACKAGES += \
     android.hardware.memtrack@1.0-impl \
     android.hardware.memtrack@1.0-service \
     android.hardware.renderscript@1.0-impl \
-    gralloc.msm8916 \
-    hwcomposer.msm8916 \
-    memtrack.msm8916 \
     libtinyxml
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
@@ -148,9 +145,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/extract_firmware.sh:install/bin/extract_firmware.sh
 endif
 
-# Encryption
-PRODUCT_PACKAGES += \
-    vendor.qti.hardware.cryptfshw@1.0-service-qti.qsee
 
 # FM
 PRODUCT_PACKAGES += \
@@ -181,7 +175,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/etc/xtwifi.conf:$(TARGET_COPY_OUT_VENDOR)/etc/xtwifi.conf
 
 # HIDL
-PRODUCT_ENFORCE_VINTF_MANIFEST_OVERRIDE := true
+PRODUCT_ENFORCE_VINTF_MANIFEST_OVERRIDE := false
 
 PRODUCT_PACKAGES += \
     libhidltransport \
@@ -231,22 +225,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.system.net.netd@1.1.vendor
 
-# OMX
-PRODUCT_PACKAGES += \
-    libOmxAacEnc \
-    libOmxAmrEnc \
-    libOmxCore \
-    libOmxEvrcEnc \
-    libOmxQcelp13Enc \
-    libOmxVdec \
-    libOmxVenc \
-    libOmxVidcCommon \
-    libstagefrighthw
 
 # Protobuf
 PRODUCT_COPY_FILES += \
-    prebuilts/vndk/v28/arm/arch-arm-armv7-a-neon/shared/vndk-core/libprotobuf-cpp-lite.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-lite-v28.so \
-    prebuilts/vndk/v28/arm/arch-arm-armv7-a-neon/shared/vndk-core/libprotobuf-cpp-full.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-full-v28.so
+    vendor/motorola/msm8916-common/proprietary/vendor/lib/libprotobuf-cpp-lite-v28.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-lite-v28.so \
+    vendor/motorola/msm8916-common/proprietary/vendor/lib/libprotobuf-cpp-full-v28.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-full-v28.so
 
 # Qualcomm
 PRODUCT_COPY_FILES += \
@@ -259,6 +242,7 @@ PRODUCT_PACKAGES += \
     init.mmi.bt.sh \
     init.mmi.touch.sh \
     init.mmi.usb.rc \
+    init.lineage.cgroup.rc \
     init.qcom.mem.sh \
     init.qcom.rc \
     init.recovery.qcom.rc \
@@ -267,7 +251,6 @@ PRODUCT_PACKAGES += \
 
 # RIL
 PRODUCT_PACKAGES += \
-    libcnefeatureconfig \
     libcutils_shim \
     libqsap_shim \
     librmnetctl \
@@ -297,16 +280,13 @@ PRODUCT_COPY_FILES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power-service-qti \
     android.hardware.power.stats@1.0-service.mock
 
-# Trust
-PRODUCT_PACKAGES += \
-    vendor.lineage.trust@1.0-service
 
 # USB
 PRODUCT_PACKAGES += \
-    android.hardware.usb@1.0-service.basic
+    android.hardware.usb.gadget@1.0-service-osprey \
+    android.hardware.usb@1.0-service-osprey
 
 # Vibrator
 PRODUCT_PACKAGES += \
@@ -326,7 +306,7 @@ PRODUCT_PACKAGES += \
     WCNSS_wlan_dictionary.dat
 
 PRODUCT_PACKAGES += \
-    android.hardware.wifi@1.0-service \
+    android.hardware.wifi-service \
     libqsap_sdk \
     libwpa_client \
     wcnss_service
@@ -335,7 +315,6 @@ PRODUCT_COPY_FILES += \
     kernel/motorola/msm8916/drivers/staging/prima/firmware_bin/WCNSS_cfg.dat:$(TARGET_COPY_OUT_VENDOR)/firmware/wlan/prima/WCNSS_cfg.dat \
     kernel/motorola/msm8916/drivers/staging/prima/firmware_bin/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/WCNSS_qcom_cfg.ini
 
-PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
 # Optimize
 PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
@@ -350,7 +329,6 @@ PRODUCT_DISABLE_SCUDO := true
 PRODUCT_PACKAGES += InProcessNetworkStack
 PRODUCT_PACKAGES += CellBroadcastAppPlatform
 PRODUCT_PACKAGES += CellBroadcastServiceModulePlatform
-PRODUCT_PACKAGES += com.android.tethering.inprocess
 
 PRODUCT_GMS_CLIENTID_BASE := android-motorola
 

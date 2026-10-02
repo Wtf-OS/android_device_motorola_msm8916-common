@@ -121,9 +121,9 @@
 /dev/mhi_pipe_14          0640   radio      radio
 /dev/mhi_pipe_16          0640   radio      radio
 /dev/mhi_pipe_32          0640   radio      radio
-/dev/video*               0660   system     camera
-/dev/media*               0660   system     camera
-/dev/v4l-subdev*          0660   system     camera
+/dev/video*               0666   system     camera
+/dev/media*               0666   system     camera
+/dev/v4l-subdev*          0666   system     camera
 /dev/qseecom              0660   system     drmrpc
 /dev/sec                  0660   system     drmrpc
 /dev/pft                  0660   system     drmrpc
@@ -274,6 +274,10 @@
 
 # haptic
 /dev/drv2605              0660   system     system
+
+# sys-fs leds
+/sys/devices/soc.0/1b0c000.qcom,cci/qcom,sky81296.132/leds/torch-light0   brightness   0666   system   camera
+/sys/class/leds/torch-light0   brightness   0666   system   camera
 
 # sys-fs display
 /sys/class/graphics/fb0     idle_time                0664    system  graphics

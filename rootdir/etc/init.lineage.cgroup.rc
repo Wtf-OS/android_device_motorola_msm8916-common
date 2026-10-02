@@ -1,0 +1,5 @@
+# Fix isolated-process (WebView sandbox) cgroup creation on cgroup-v1 kernels.
+# /acct/uid is root-owned at boot; system_server needs to mkdir per-uid groups.
+on early-boot
+    chown system system /acct/uid
+    chmod 0775 /acct/uid

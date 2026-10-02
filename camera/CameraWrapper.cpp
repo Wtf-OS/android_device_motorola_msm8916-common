@@ -29,6 +29,10 @@
 
 #include <utils/threads.h>
 #include <utils/String8.h>
+#include <dlfcn.h>
+#include <fcntl.h>
+#include <string.h>
+#include <unistd.h>
 #include <hardware/hardware.h>
 #include <hardware/camera.h>
 #include <camera/Camera.h>
@@ -36,6 +40,10 @@
 
 #define BACK_CAMERA     0
 #define FRONT_CAMERA    1
+
+#define TORCH_LED_PATH "/sys/class/leds/torch-light0/brightness"
+#define TORCH_ON_VALUE "255"
+#define TORCH_OFF_VALUE "0"
 
 using namespace android;
 
@@ -52,8 +60,36 @@ static char **fixed_set_params = NULL;
 
 static int camera_device_open(const hw_module_t *module, const char *name,
         hw_device_t **device);
+
+static int camera_set_torch_mode(const char *camera_id, bool on)
+{
+    int id;
+    ALOGV("%s: camera_id=%s on=%d", __FUNCTION__, camera_id ? camera_id : "(null)", on);
+    if (camera_id == NULL)
+        return -EINVAL;
+    id = atoi(camera_id);
+    if (id != BACK_CAMERA) {
+        ALOGE("%s: no flashlight on camera %d", __FUNCTION__, id);
+        return -ENOSYS;
+    }
+    const char *value = on ? TORCH_ON_VALUE : TORCH_OFF_VALUE;
+    int fd = open(TORCH_LED_PATH, O_WRONLY);
+    if (fd < 0) {
+        ALOGE("%s: failed to open %s", __FUNCTION__, TORCH_LED_PATH);
+        return -ENOSYS;
+    }
+    ssize_t len = write(fd, value, strlen(value));
+    close(fd);
+    if (len < 0) {
+        ALOGE("%s: failed to write %s", __FUNCTION__, TORCH_LED_PATH);
+        return -EIO;
+    }
+    return 0;
+}
+
 static int camera_get_number_of_cameras(void);
 static int camera_get_camera_info(int camera_id, struct camera_info *info);
+static int camera_set_torch_mode(const char *camera_id, bool on);
 
 static struct hw_module_methods_t camera_module_methods = {
     .open = camera_device_open
@@ -76,7 +112,7 @@ camera_module_t HAL_MODULE_INFO_SYM = {
     .set_callbacks = NULL, /* remove compilation warnings */
     .get_vendor_tag_ops = NULL, /* remove compilation warnings */
     .open_legacy = NULL, /* remove compilation warnings */
-    .set_torch_mode = NULL, /* remove compilation warnings */
+    .set_torch_mode = camera_set_torch_mode, /* remove compilation warnings */
     .init = NULL, /* remove compilation warnings */
     .reserved = {0}, /* remove compilation warnings */
 };
@@ -104,6 +140,17 @@ static int check_vendor_module()
     if (gVendorModule)
         return 0;
 
+    void *handle = dlopen("/vendor/lib/hw/camera.vendor.msm8916.so", RTLD_NOW);
+    if (!handle) handle = dlopen("/vendor/lib/hw/camera.qcom_orig.so", RTLD_NOW);
+    if (handle) {
+        const hw_module_t *hmi = (const hw_module_t *)dlsym(handle, HAL_MODULE_INFO_SYM_AS_STR);
+        if (hmi) {
+            gVendorModule = (camera_module_t *)hmi;
+            ALOGI("CameraWrapper: successfully opened camera.qcom_orig.so (name: %s)", hmi->name);
+            return 0;
+        }
+    }
+
     rv = hw_get_module_by_class("camera", "vendor",
             (const hw_module_t**)&gVendorModule);
     if (rv)
@@ -130,7 +177,7 @@ static char *camera_fixup_getparams(int __attribute__((unused)) id, const char *
 #endif
 
     String8 strParams = params.flatten();
-    char *ret = strdup(strParams.string());
+    char *ret = strdup(strParams.c_str());
 
     return ret;
 }
@@ -155,7 +202,7 @@ static char *camera_fixup_setparams(int id, const char *settings)
     String8 strParams = params.flatten();
     if (fixed_set_params[id])
         free(fixed_set_params[id]);
-    fixed_set_params[id] = strdup(strParams.string());
+    fixed_set_params[id] = strdup(strParams.c_str());
     char *ret = fixed_set_params[id];
 
     return ret;
@@ -637,18 +684,59 @@ fail:
     return rv;
 }
 
+
+static int camera_set_torch_mode(const char *camera_id, bool on)
+{
+    int id;
+    ALOGV("%s: camera_id=%s on=%d", __FUNCTION__, camera_id ? camera_id : "(null)", on);
+    if (camera_id == NULL)
+        return -EINVAL;
+    id = atoi(camera_id);
+    if (id != BACK_CAMERA) {
+        ALOGE("%s: no flashlight on camera %d", __FUNCTION__, id);
+        return -ENOSYS;
+    }
+    const char *value = on ? TORCH_ON_VALUE : TORCH_OFF_VALUE;
+    int fd = open(TORCH_LED_PATH, O_WRONLY);
+    if (fd < 0) {
+        ALOGE("%s: failed to open %s", __FUNCTION__, TORCH_LED_PATH);
+        return -ENOSYS;
+    }
+    ssize_t len = write(fd, value, strlen(value));
+    close(fd);
+    if (len < 0) {
+        ALOGE("%s: failed to write %s", __FUNCTION__, TORCH_LED_PATH);
+        return -EIO;
+    }
+    return 0;
+}
+
 static int camera_get_number_of_cameras(void)
 {
+    int num;
     ALOGV("%s", __FUNCTION__);
-    if (check_vendor_module())
+    if (check_vendor_module()) {
+        ALOGE("CameraWrapper: vendor module FAILED to open, returning 0");
         return 0;
-    return gVendorModule->get_number_of_cameras();
+    }
+    num = gVendorModule->get_number_of_cameras();
+    ALOGE("CameraWrapper: vendor reports %d cameras", num);
+    return num;
 }
 
 static int camera_get_camera_info(int camera_id, struct camera_info *info)
 {
+    int rv;
     ALOGV("%s", __FUNCTION__);
-    if (check_vendor_module())
+    if (check_vendor_module()) {
+        ALOGE("CameraWrapper: get_camera_info vendor module missing");
         return 0;
-    return gVendorModule->get_camera_info(camera_id, info);
+    }
+    rv = gVendorModule->get_camera_info(camera_id, info);
+    ALOGE("CameraWrapper: get_camera_info(%d) -> %d facing=%d orientation=%d device_version=0x%x", camera_id, rv, info->facing, info->orientation, info->device_version);
+    if (info->device_version == 0) {
+        // Legacy blobs leave device_version unset; report HAL1
+        info->device_version = CAMERA_DEVICE_API_VERSION_1_0;
+    }
+    return rv;
 }

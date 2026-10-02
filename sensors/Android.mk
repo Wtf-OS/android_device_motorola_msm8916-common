@@ -76,6 +76,7 @@ ifeq ($(BOARD_USES_STML0XX_SENSOR_HUB), true)
 
     LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SH_PATH)
     LOCAL_C_INCLUDES += external/zlib
+    LOCAL_HEADER_LIBRARIES := libhardware_headers
 
     LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
     # Need the UAPI output directory to be populated with stml0xx.h
@@ -99,6 +100,7 @@ ifeq ($(BOARD_USES_STML0XX_SENSOR_HUB), true)
     LOCAL_MODULE_RELATIVE_PATH := hw
     LOCAL_SRC_FILES := $(SH_PATH)/sensorhub.c
     LOCAL_SRC_FILES += $(UTILS_PATH)/sensor_time.cpp
+    LOCAL_HEADER_LIBRARIES := libhardware_headers
 
     LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
     # Need the UAPI output directory to be populated with stml0xx.h
@@ -124,7 +126,7 @@ ifeq ($(BOARD_USES_STML0XX_SENSOR_HUB), true)
         LOCAL_MODULE_TAGS := optional
 
         LOCAL_MODULE  := akmd09912
-        LOCAL_PROPRIETARY_MODULE := true
+        LOCAL_PROPRIETARY_MODULE := false
 
         LOCAL_C_INCLUDES := \
             $(LOCAL_PATH)/$(AKM_PATH) \

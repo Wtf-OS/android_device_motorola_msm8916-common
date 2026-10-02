@@ -1,3 +1,4 @@
 /firmware(/.*)?        u:object_r:firmware_file:s0
 /persist(/.*)?         u:object_r:persist_file:s0
 /fsg(/.*)?             u:object_r:fsg_file:s0
+/sys/devices/soc\.0/1b0c000\.qcom,cci/qcom,sky81296\.[0-9]+/leds(/.*)?  u:object_r:sysfs_leds:s0

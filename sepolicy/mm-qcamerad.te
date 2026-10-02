@@ -1,3 +1,7 @@
+type mm-qcamerad, domain;
+type mm-qcamerad_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(mm-qcamerad)
+
 allow mm-qcamerad { untrusted_app_all priv_app }:fd use;
 allow mm-qcamerad persist_file:file r_file_perms;
 allow mm-qcamerad system_data_file:dir w_dir_perms;

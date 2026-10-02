@@ -27,7 +27,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.bluetooth.dun=true \
     ro.bluetooth.hfp.ver=1.7 \
     ro.bluetooth.sap=true \
-    ro.qualcomm.bt.hci_transport=smd
+    ro.qualcomm.bt.hci_transport=smd \
+    bluetooth.profile.a2dp.source.enabled=true \
+    bluetooth.profile.avrcp.target.enabled=true \
+    bluetooth.profile.hfp.ag.enabled=true \
+    bluetooth.profile.hid.host.enabled=true \
+    bluetooth.profile.pan.nap.enabled=true \
+    bluetooth.profile.pan.panu.enabled=true \
+    bluetooth.profile.pbap.server.enabled=true
 
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -39,6 +46,8 @@ PRODUCT_PRODUCT_PROPERTIES += \
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
+    ro.hardware.egl=adreno \
+    service.sf.prime_shader_cache=0 \
     ro.opengles.version=196608 \
     debug.sf.recomputecrop=0 \
     debug.sf.disable_backpressure=1 \
@@ -73,9 +82,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Media
 PRODUCT_PROPERTY_OVERRIDES += \
-    debug.stagefright.ccodec=0 \
+    debug.stagefright.ccodec=4 \
     debug.stagefright.omx_default_rank.sw-audio=1 \
-    debug.stagefright.omx_default_rank=0 \
+    debug.stagefright.omx_default_rank=256 \
     vendor.mediacodec.binder.size=6 \
     vidc.enc.narrow.searchrange=1
 
@@ -169,7 +178,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # System
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.binary_xml=false \
-    ro.vndk.version=current
 
 # Timeout failed shutdowns
 PRODUCT_PROPERTY_OVERRIDES += \

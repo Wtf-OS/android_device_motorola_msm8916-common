@@ -1,0 +1,10 @@
+service vendor.usb-gadget-hal-1-0 /vendor/bin/hw/android.hardware.usb.gadget@1.0-service-osprey
+    class hal
+    user system
+    group system
+
+on post-fs-data
+    chown system system /sys/class/android_usb/android0/functions
+    chown system system /sys/class/android_usb/android0/enable
+    chmod 0660 /sys/class/android_usb/android0/functions
+    chmod 0660 /sys/class/android_usb/android0/enable

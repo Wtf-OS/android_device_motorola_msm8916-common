@@ -218,7 +218,7 @@ int SensorsPollContext::pollEvents(sensors_event_t* data, int count)
 					if (ID_A == sensor_data->sensor) {
 						static_cast<AkmSensor*>(mSensors[akm])->setAccel(sensor_data);
 					}
-					sensor_data--;
+					sensor_data++;
 				}
 			}
 #endif

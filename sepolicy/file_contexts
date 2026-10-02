@@ -58,6 +58,16 @@
 /sys/devices/w1_bus_master1(/.*)?                           u:object_r:sysfs_w1_bus:s0
 
 # Camera
+/(vendor|system/vendor)/bin/mm-qcamera-daemon                  u:object_r:mm-qcamerad_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.camera\.provider@2\.4-service.* u:object_r:hal_camera_default_exec:s0
+# Bluetooth QTI
+/(vendor|system/vendor)/bin/hw/android\.hardware\.bluetooth@1\.0-service-qti u:object_r:hal_bluetooth_default_exec:s0
+# WiFi
+/(vendor|system/vendor)/bin/hw/android\.hardware\.wifi@1\.0-service u:object_r:hal_wifi_default_exec:s0
+# USB
+/(vendor|system/vendor)/bin/hw/android\.hardware\.usb@1\.0-service\.basic u:object_r:hal_usb_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.usb@1\.0-service-osprey u:object_r:hal_usb_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.usb\.gadget@1\.0-service-osprey u:object_r:hal_usb_gadget_default_exec:s0
 /sys/devices(/platform)?/soc\.0/qcom,msm-cam\.[0-9]+/video4linux/video[0-9]+/name(/.*)?  u:object_r:sysfs_graphics:s0
 /sys/devices(/platform)?/soc\.0/qcom,msm-cam\.[0-9]+/video4linux/v4l-subdev[0-9]+/name(/.*)?  u:object_r:sysfs_graphics:s0
 /sys/devices/virtual/video4linux/video[0-9]+/name(/.*)?  u:object_r:sysfs_graphics:s0

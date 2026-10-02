@@ -32,6 +32,7 @@ on early-init
     chown system graphics /sys/devices/virtual/graphics/fb0/idle_time
 
 on init
+    setprop bluetooth.le.disable_apcf_extended_features 1
 
     # Full speed for bootup
     write /sys/module/msm_thermal/core_control/enabled 0
@@ -58,6 +59,8 @@ on fs
     setprop ro.adb.nonblocking_ffs 0
 
 on late-fs
+    start lineage-bootlog
+    start lineage-audio-snapshot
     # Start services for bootanim
     start hwservicemanager
     start servicemanager
@@ -69,6 +72,21 @@ on late-fs
     # Mount RW partitions which need run fsck
     mount_all /vendor/etc/fstab.qcom --late
 
+# Keep a bounded log on /cache for failures before adbd becomes available.
+service lineage-bootlog /system/bin/logcat -b main -b system -b crash -v threadtime -f /cache/lineage-boot.log -r 16384 -n 4 *:W
+    class core
+    disabled
+    oneshot
+    user root
+    group log
+
+# Capture the kernel's audio probe before the ring buffer is overwritten.
+service lineage-audio-snapshot /system/bin/sh -c "dmesg > /cache/lineage-audio-early.dmesg; sleep 15; cat /proc/asound/cards > /cache/lineage-audio-probe.txt; ls -l /dev/snd >> /cache/lineage-audio-probe.txt; dmesg > /cache/lineage-audio-probe.dmesg; sleep 45; cat /proc/asound/cards > /cache/lineage-audio-late.txt; ls -l /dev/snd >> /cache/lineage-audio-late.txt; dmesg > /cache/lineage-audio-late.dmesg"
+    class core
+    disabled
+    oneshot
+    user root
+    group root
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
@@ -141,6 +159,8 @@ on boot
     chown system system /sys/class/backlight/lcd-backlight:0/max_brightness
     chmod 0664 /sys/class/backlight/lcd-backlight:0/max_brightness
     chmod 0664 /sys/class/leds/lcd-backlight/brightness
+    chown system camera /sys/class/leds/torch-light0/brightness
+    chmod 0666 /sys/class/leds/torch-light0/brightness
 
     # Change the ownership of the OneWire bus interface
     chown camera camera /sys/devices/w1_bus_master1/w1_master_search
@@ -218,12 +238,15 @@ on post-fs
 
     write /proc/sys/vm/page-cluster 0
     write /proc/sys/vm/swappiness 100
+    write /proc/sys/vm/vfs_cache_pressure 100
 
     # Allow writing to the kernel trace log.
     chmod 0222 /sys/kernel/debug/tracing/trace_marker
 
 # msm specific files that need to be created on /data
 on post-fs-data
+    # Early ZRAM swap
+    swapon_all /vendor/etc/fstab.qcom
     mkdir /data/misc/camera 0770 camera camera
 
     # Create the directories used by the Wireless subsystem
@@ -341,6 +364,7 @@ service wcnss-service /vendor/bin/wcnss_service
 
 #start camera server as daemon
 service qcamerasvr /vendor/bin/mm-qcamera-daemon
+    setenv LD_PRELOAD /system/lib/libshims_camera.so:/vendor/lib/libc_util.so
     class late_start
     user camera
     group camera system inet input graphics
@@ -418,6 +442,14 @@ service netmgrd /vendor/bin/netmgrd
     user root
     group root wifi wakelock radio inet oem_2950
 
+service vendor.ril-daemon /vendor/bin/hw/rild
+    class main
+    user radio
+    disabled
+    override
+    group radio cache inet misc audio log readproc wakelock
+    capabilities BLOCK_SUSPEND NET_ADMIN NET_RAW
+
 service ril-daemon2 /vendor/bin/hw/rild -c 2
     class main
     user radio
@@ -479,6 +511,7 @@ service vendor.per_mgr /vendor/bin/pm-service
     class core
     user system
     group system
+    capabilities NET_BIND_SERVICE NET_RAW
 
 service vendor.per_proxy /vendor/bin/pm-proxy
     class core

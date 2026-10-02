@@ -22,20 +22,10 @@ LOCAL_SHARED_LIBRARIES := libstagefright libmedia libutils libsensor
 LOCAL_CFLAGS := -Wno-unused-parameter
 LOCAL_MODULE := libshims_camera
 LOCAL_MODULE_TAGS := optional
-LOCAL_VENDOR_MODULE := true
+LOCAL_VENDOR_MODULE := false
 include $(BUILD_SHARED_LIBRARY)
 
-# RIL + Qsap Shim
-include $(CLEAR_VARS)
-LOCAL_SRC_FILES := ASensorManager.cpp libqsap_shim.c
-LOCAL_SHARED_LIBRARIES := android.hardware.sensors@1.0 libqsap_sdk liblog
-LOCAL_STATIC_LIBRARIES := android.hardware.sensors@1.0-convert
-LOCAL_C_INCLUDES := $(TOP)/system/qcom/softap/sdk
-LOCAL_MODULE := libqsap_shim
-LOCAL_VENDOR_MODULE := true
-LOCAL_MODULE_TAGS := optional
-LOCAL_PROPRIETARY_MODULE := true
-include $(BUILD_SHARED_LIBRARY)
+
 
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES := atomic.cpp
