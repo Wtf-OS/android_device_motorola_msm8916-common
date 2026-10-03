@@ -55,6 +55,20 @@ on fs
     setprop sys.usb.ffs.aio_compat 1
     setprop sys.usb.mtp.device_type 2
 
+# Legacy FunctionFS keeps ep0 busy after adbd restarts (adb root/unroot).
+# Detach the old mount once adbd has exited; new adbd will publish ready=1.
+on property:init.svc.adbd=restarting
+    write /sys/class/android_usb/android0/enable 0
+    exec -- /system/bin/umount -l /dev/usb-ffs/adb
+    mount functionfs adb /dev/usb-ffs/adb uid=2000,gid=2000
+    setprop sys.usb.ffs.ready 0
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=adb
+    write /sys/class/android_usb/android0/enable 1
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mtp,adb
+    write /sys/class/android_usb/android0/enable 1
+
 # USB compositions
 on property:sys.usb.config=diag,serial_smd,serial_tty,rmnet_bam,mass_storage,adb
     write /sys/class/android_usb/android0/enable 0
