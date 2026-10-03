@@ -95,11 +95,8 @@ on early-boot
     start vendor.qseecomd
     
 on boot
-    # WtfOS: 1GB RAM + zram. Stock swappiness=100 swaps app pages instead of
-    # dropping file cache, kswapd spins at 100% and input latency exceeds 1s
-    # (power press misfires as long-press). Prefer cache reclaim, keep headroom.
+    # Prefer reclaiming file cache over swapping apps on this 1GB device.
     write /proc/sys/vm/swappiness 60
-    write /proc/sys/vm/min_free_kbytes 8192
 
     #Create QMUX deamon socket area
     mkdir /dev/socket/qmux_radio 0770 radio radio
@@ -243,7 +240,6 @@ on post-fs
     chmod 0600 /persist/whisper/whisper_only/vector0.bin
 
     write /proc/sys/vm/page-cluster 0
-    write /proc/sys/vm/swappiness 100
     write /proc/sys/vm/vfs_cache_pressure 100
 
     # Allow writing to the kernel trace log.
