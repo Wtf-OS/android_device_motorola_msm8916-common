@@ -14,8 +14,8 @@ PRODUCT_PACKAGES += \
     audio.usb.default \
     android.hardware.bluetooth-service.default \
     android.hardware.wifi-service \
-    android.hardware.wifi.supplicant-service \
-    android.hardware.wifi.hostapd-service \
+    wpa_supplicant \
+    hostapd \
     android.hardware.light@2.0-service.msm8916 \
     android.hardware.health-service.example \
     android.hardware.power-service.example
