@@ -47,7 +47,6 @@ PRODUCT_COPY_FILES += \
     device/motorola/msm8916-common/mainline-boot/init.osprey.rc:root/init.osprey.rc \
     device/motorola/msm8916-common/mainline-boot/fstab.osprey:system/vendor/etc/fstab.osprey \
     device/motorola/msm8916-common/mainline-boot/osprey-hardware.sh:system/vendor/bin/osprey-hardware.sh \
-    device/motorola/msm8916-common/mainline-boot/ueventd.osprey.rc:system/vendor/etc/ueventd.rc \
     device/motorola/msm8916-common/mainline-boot/modules/ak7375.ko:system/vendor/lib/modules/ak7375.ko \
     device/motorola/msm8916-common/mainline-boot/modules/btqca.ko:system/vendor/lib/modules/btqca.ko \
     device/motorola/msm8916-common/mainline-boot/modules/btqcomsmd.ko:system/vendor/lib/modules/btqcomsmd.ko \
@@ -106,3 +105,5 @@ PRODUCT_COPY_FILES += \
     device/motorola/msm8916-common/mainline-boot/modules/zsmalloc.ko:system/vendor/lib/modules/zsmalloc.ko \
     device/motorola/msm8916-common/mainline-boot/firmware/a300_pfp.fw:system/vendor/firmware/qcom/a300_pfp.fw \
     device/motorola/msm8916-common/mainline-boot/firmware/a300_pm4.fw:system/vendor/firmware/qcom/a300_pm4.fw
+
+PRODUCT_PACKAGES += ueventd.qcom.rc

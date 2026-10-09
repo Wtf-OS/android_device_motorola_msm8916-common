@@ -81,7 +81,11 @@ LOCAL_MODULE       := ueventd.qcom.rc
 LOCAL_MODULE_STEM  := ueventd.rc
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
+ifeq ($(BOARD_USES_QCOM_HARDWARE),false)
+LOCAL_SRC_FILES    := ../mainline-boot/ueventd.osprey.rc
+else
 LOCAL_SRC_FILES    := etc/ueventd.qcom.rc
+endif
 LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_ETC)
 include $(BUILD_PREBUILT)
 
