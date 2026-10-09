@@ -17,6 +17,7 @@
 #define LOG_TAG "android.hardware.light@2.0-service.msm8916"
 
 #include <android-base/logging.h>
+#include <android-base/properties.h>
 #include <hidl/HidlTransportSupport.h>
 #include <utils/Errors.h>
 
@@ -34,7 +35,36 @@ const static std::string kLcdBacklightPath = "/sys/class/leds/lcd-backlight/brig
 const static std::string kLcdMaxBacklightPath = "/sys/class/leds/lcd-backlight/max_brightness";
 const static std::string kChargingLedPath = "/sys/class/leds/charging/brightness";
 
+// No light devices are exposed by the simpledrm RAM probe.
+class ProbeLight final : public ILight {
+    android::hardware::Return<android::hardware::light::V2_0::Status> setLight(
+            android::hardware::light::V2_0::Type,
+            const android::hardware::light::V2_0::LightState&) override {
+        return android::hardware::light::V2_0::Status::LIGHT_NOT_SUPPORTED;
+    }
+    android::hardware::Return<void> getSupportedTypes(getSupportedTypes_cb callback) override {
+        callback({});
+        return android::hardware::Void();
+    }
+};
+
 int main() {
+    if (android::base::GetBoolProperty("debug.mainline.light_probe", false)) {
+        configureRpcThreadpool(1, true);
+        std::ofstream backlight("/sys/class/backlight/osprey-backlight/brightness");
+        android::sp<ILight> service;
+        if (backlight) {
+            service = new Light({std::move(backlight), 255}, std::ofstream("/dev/null"));
+            LOG(INFO) << "Mainline native panel backlight ready.";
+        } else {
+            service = new ProbeLight();
+        }
+        if (service->registerAsService() != android::OK) return 1;
+        LOG(INFO) << "Mainline Light HAL ready.";
+        joinRpcThreadpool();
+        return 1;
+    }
+
     uint32_t lcdMaxBrightness = 255;
 
     std::ofstream lcdBacklight(kLcdBacklightPath);

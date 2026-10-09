@@ -325,8 +325,8 @@ PRODUCT_MINIMIZE_JAVA_DEBUG_INFO := true
 PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
 PRODUCT_DISABLE_SCUDO := true
 
-# Do not spin up a separate process for the network stack, use an in-process APK.
-PRODUCT_PACKAGES += InProcessNetworkStack
+# Match the networkstack UID and signing key of the standalone Tethering APEX.
+PRODUCT_PACKAGES += NetworkStack
 PRODUCT_PACKAGES += CellBroadcastAppPlatform
 PRODUCT_PACKAGES += CellBroadcastServiceModulePlatform
 
