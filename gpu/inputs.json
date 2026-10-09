@@ -1,0 +1,57 @@
+[
+  {
+    "name": "libglapi",
+    "sha256": "803b6d725d5c17785928c955c75d8d2e7c8dc0dab0c0a9e01718cdea843be9d0",
+    "needed": [
+      "libc.so"
+    ]
+  },
+  {
+    "name": "libgallium_dri",
+    "sha256": "a45c6da82396ccbcf86596b0b117e2fdf250f4ccb314b9f07265e56404fa9042",
+    "needed": [
+      "libcutils.so",
+      "liblog.so",
+      "libsync.so",
+      "libglapi.so",
+      "libdrm.so",
+      "libz.so",
+      "libm.so",
+      "libdl.so",
+      "libc.so"
+    ]
+  },
+  {
+    "name": "libEGL_adreno",
+    "sha256": "532d3253ba251b6dcc8ee5067c117a48401f16dc6e06183c0146ea0351efeebe",
+    "needed": [
+      "libcutils.so",
+      "libhardware.so",
+      "liblog.so",
+      "libnativewindow.so",
+      "libsync.so",
+      "libgallium_dri.so",
+      "libglapi.so",
+      "libdrm.so",
+      "libm.so",
+      "libdl.so",
+      "libc.so"
+    ]
+  },
+  {
+    "name": "libGLESv1_CM_adreno",
+    "sha256": "d4a7d54a7ecb695419e4e03b004a493e3e4e34bf2ae3b555dfa009f0f008e7fb",
+    "needed": [
+      "libglapi.so",
+      "libc.so"
+    ]
+  },
+  {
+    "name": "libGLESv2_adreno",
+    "sha256": "08b20a9677380e5243441d8cb33f9d158e94b28282c771be794527838a42e1fe",
+    "needed": [
+      "libglapi.so",
+      "libc.so"
+    ]
+  }
+]

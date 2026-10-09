@@ -39,3 +39,6 @@ PRODUCT_SYSTEM_PROPERTIES += \
     sys.use_memfd=true \
     debug.mainline.allow_memfd=true \
     ro.surface_flinger.default_composition_pixel_format=5
+
+PRODUCT_PACKAGES += libglapi libgallium_dri libEGL_adreno libGLESv1_CM_adreno libGLESv2_adreno
+PRODUCT_VENDOR_PROPERTIES += ro.hardware.egl=adreno
