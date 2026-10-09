@@ -17,8 +17,8 @@ PRODUCT_PACKAGES += \
     android.hardware.wifi.supplicant-service \
     android.hardware.wifi.hostapd-service \
     android.hardware.light@2.0-service.msm8916 \
-+    android.hardware.health-service.example \
-+    android.hardware.power-service.example
+    android.hardware.health-service.example \
+    android.hardware.power-service.example
 
 PRODUCT_COPY_FILES += \
     device/motorola/msm8916-common/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
@@ -37,5 +37,5 @@ PRODUCT_VENDOR_PROPERTIES += \
     vendor.minigbm.debug=nocompression
 PRODUCT_SYSTEM_PROPERTIES += \
     sys.use_memfd=true \
-+    debug.mainline.allow_memfd=true \
+    debug.mainline.allow_memfd=true \
     ro.surface_flinger.default_composition_pixel_format=5
