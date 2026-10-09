@@ -16,7 +16,9 @@ PRODUCT_PACKAGES += \
     android.hardware.wifi-service \
     android.hardware.wifi.supplicant-service \
     android.hardware.wifi.hostapd-service \
-    android.hardware.light@2.0-service.msm8916
+    android.hardware.light@2.0-service.msm8916 \
++    android.hardware.health-service.example \
++    android.hardware.power-service.example
 
 PRODUCT_COPY_FILES += \
     device/motorola/msm8916-common/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
