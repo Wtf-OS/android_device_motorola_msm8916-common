@@ -7,9 +7,9 @@ PRODUCT_PACKAGES += \
     mapper.minigbm \
     gralloc.minigbm_msm \
     audio.primary.mainline \
-    android.hardware.audio@2.0-service \
-    android.hardware.audio@2.0-impl \
-    android.hardware.audio.effect@2.0-impl \
+    android.hardware.audio.service \
+    android.hardware.audio@6.0-impl \
+    android.hardware.audio.effect@6.0-impl \
     audio.r_submix.default \
     audio.usb.default \
     android.hardware.bluetooth-service.default \
@@ -21,6 +21,7 @@ PRODUCT_PACKAGES += \
     android.hardware.power-service.example
 
 PRODUCT_COPY_FILES += \
+    external/wpa_supplicant_8/wpa_supplicant/aidl/vendor/android.hardware.wifi.supplicant-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/android.hardware.wifi.supplicant-service.rc \
     device/motorola/msm8916-common/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
     frameworks/av/services/audiopolicy/config/audio_policy_volumes.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_volumes.xml \
     frameworks/av/services/audiopolicy/config/default_volume_tables.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default_volume_tables.xml \
@@ -32,6 +33,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_VENDOR_PROPERTIES += \
     ro.hardware.audio=mainline \
+    debug.mainline.light_probe=true \
     ro.hardware.gralloc=minigbm_msm \
     vendor.hwc.drm.device=/dev/dri/card1 \
     vendor.minigbm.debug=nocompression
@@ -51,3 +53,26 @@ PRODUCT_COPY_FILES += \
     device/motorola/msm8916-common/mainline-boot/firmware/a300_pm4.fw:system/vendor/firmware/qcom/a300_pm4.fw
 
 PRODUCT_PACKAGES += ueventd.qcom.rc
+
+# Software-only KeyMint for mainline bring-up; no TEE-backed key protection.
+PRODUCT_PACKAGES += android.hardware.security.keymint-service
+
+# Osprey shipped with Android 5.1; retain ARM32 while validating mainline BPF.
+PRODUCT_VENDOR_PROPERTIES += ro.board.first_api_level=22 ro.vendor.osprey.mainline_bpf_compat=1
+
+PRODUCT_SOONG_NAMESPACES += hardware/qcom/wlan hardware/qcom/wlan/legacy
+PRODUCT_PACKAGES += libcld80211
+
+PRODUCT_PACKAGES += Camera2 android.hardware.camera.provider@2.4-service android.hardware.camera.provider@2.4-impl
+PRODUCT_PACKAGES += libcamera_osprey libcamera_osprey_base libcamera-hal ipa_softisp softisp_ipa_proxy osprey_camera_hal_alias
+PRODUCT_COPY_FILES += \
+    device/motorola/msm8916-common/mainline-camera/media_profiles_V1_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
+    device/motorola/msm8916-common/mainline-camera/configuration.yaml:$(TARGET_COPY_OUT_VENDOR)/etc/libcamera/configuration.yaml \
+    device/motorola/msm8916-common/mainline-camera/camera_hal.yaml:$(TARGET_COPY_OUT_VENDOR)/etc/libcamera/camera_hal.yaml \
+    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+    frameworks/native/data/etc/android.hardware.camera.front.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.front.xml
+
+PRODUCT_COPY_FILES += \
+    device/motorola/msm8916-common/mainline-camera/ipa_softisp.so.sign:$(TARGET_COPY_OUT_VENDOR)/lib/libcamera/ipa/ipa_softisp.so.sign \
+    device/motorola/msm8916-common/mainline-camera/s5k3m2.yaml:$(TARGET_COPY_OUT_VENDOR)/share/libcamera/ipa/softisp/s5k3m2.yaml \
+    device/motorola/msm8916-common/mainline-camera/uncalibrated.yaml:$(TARGET_COPY_OUT_VENDOR)/share/libcamera/ipa/softisp/uncalibrated.yaml
