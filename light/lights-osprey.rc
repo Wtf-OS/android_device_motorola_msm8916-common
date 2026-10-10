@@ -1,0 +1,6 @@
+service vendor.lights-osprey /vendor/bin/hw/android.hardware.lights-service.osprey
+    interface aidl android.hardware.light.ILights/default
+    class hal
+    user system
+    group system
+    shutdown critical

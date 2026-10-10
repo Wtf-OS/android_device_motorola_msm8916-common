@@ -16,7 +16,7 @@ PRODUCT_PACKAGES += \
     android.hardware.wifi-service \
     wpa_supplicant \
     hostapd \
-    android.hardware.light@2.0-service.msm8916 \
+    android.hardware.lights-service.osprey \
     android.hardware.health-service.example \
     android.hardware.power-service.example
 
@@ -39,7 +39,6 @@ PRODUCT_VENDOR_PROPERTIES += \
     vendor.minigbm.debug=nocompression
 PRODUCT_SYSTEM_PROPERTIES += \
     sys.use_memfd=true \
-    debug.mainline.allow_memfd=true \
     ro.surface_flinger.default_composition_pixel_format=5
 
 PRODUCT_PACKAGES += libglapi libgallium_dri libEGL_adreno libGLESv1_CM_adreno libGLESv2_adreno
