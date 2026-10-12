@@ -1,5 +1,6 @@
 subdirs = [
      "light",
+     "mainline-modem", "mainline-sensors",
 ]
 
 soong_namespace {

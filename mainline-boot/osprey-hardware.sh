@@ -28,6 +28,9 @@ done
 mount -t ext4 -o ro,noload /dev/block/mmcblk0p1 /firmware
 echo /vendor/firmware > /sys/module/firmware_class/parameters/path
 for name in qcom_common mdt_loader qcom_pil_info wcnss_ctrl wcn36xx qcom_wcnss_pil; do load "$name"; done
+load interconnect_qcom
+load icc-smd-rpm
+load qnoc-msm8916
 for name in drm_exec drm_gpuvm gpu-sched ubwc_config cec drm_display_helper panel-motorola-osprey-inx; do load "$name"; done
 if [ -e /sys/bus/platform/drivers/simple-framebuffer/83200000.framebuffer ]; then
     echo 83200000.framebuffer > /sys/bus/platform/drivers/simple-framebuffer/unbind
@@ -45,3 +48,10 @@ if [ -e /sys/class/backlight/osprey-backlight/brightness ]; then
     chmod 0660 /sys/class/backlight/osprey-backlight/brightness
 fi
 echo 'OSPREY A16: native hardware initialization complete'
+
+# Optional during bring-up: keep the system usable if sensorhub probing fails.
+if ! grep -q '^stml0xx_accel ' /proc/modules; then
+    insmod /vendor/lib/modules/stml0xx-accel.ko || echo "sensorhub module failed" >&2
+fi
+
+load ak8975

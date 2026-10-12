@@ -39,7 +39,7 @@ PRODUCT_VENDOR_PROPERTIES += \
     vendor.minigbm.debug=nocompression
 PRODUCT_SYSTEM_PROPERTIES += \
     sys.use_memfd=true \
-    ro.surface_flinger.default_composition_pixel_format=5
+    ro.surface_flinger.default_composition_pixel_format=1
 
 PRODUCT_PACKAGES += libglapi libgallium_dri libEGL_adreno libGLESv1_CM_adreno libGLESv2_adreno
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.egl=adreno
@@ -75,3 +75,20 @@ PRODUCT_COPY_FILES += \
     device/motorola/msm8916-common/mainline-camera/ipa_softisp.so.sign:$(TARGET_COPY_OUT_VENDOR)/lib/libcamera/ipa/ipa_softisp.so.sign \
     device/motorola/msm8916-common/mainline-camera/s5k3m2.yaml:$(TARGET_COPY_OUT_VENDOR)/share/libcamera/ipa/softisp/s5k3m2.yaml \
     device/motorola/msm8916-common/mainline-camera/uncalibrated.yaml:$(TARGET_COPY_OUT_VENDOR)/share/libcamera/ipa/softisp/uncalibrated.yaml
+
+# MPSS bring-up without SIM; EFS writes stay in the rmtfs RAM shadow.
+PRODUCT_PACKAGES += osprey-modem osprey-rmtfs
+
+
+PRODUCT_COPY_FILES += $(foreach f,$(wildcard device/motorola/msm8916-common/mainline-modem/firmware/*),$(f):$(TARGET_COPY_OUT_VENDOR)/firmware/$(notdir $(f)))
+
+PRODUCT_PACKAGES += android.hardware.radio-service.osprey
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.telephony.radio.access.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.radio.access.xml
+
+PRODUCT_PACKAGES += android.hardware.sensors-service.osprey
+
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.accelerometer.xml
+
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.sensor.light.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.light.xml
+
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.sensor.proximity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.proximity.xml

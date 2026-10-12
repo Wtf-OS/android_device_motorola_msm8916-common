@@ -1,0 +1,16 @@
+subdirs = ["radio"]
+
+sh_binary {
+    name: "osprey-modem",
+    vendor: true,
+    src: "osprey-modem.sh",
+    filename: "osprey-modem.sh",
+    init_rc: ["osprey-modem.rc"],
+}
+
+cc_prebuilt_binary {
+    name: "osprey-rmtfs",
+    vendor: true,
+    srcs: ["osprey-rmtfs"],
+    strip: { none: true },
+}

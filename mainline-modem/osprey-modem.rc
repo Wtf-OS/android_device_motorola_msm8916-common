@@ -1,0 +1,5 @@
+service osprey-modem /system/bin/sh /vendor/bin/osprey-modem.sh
+    class late_start
+    user root
+    group root
+    seclabel u:r:init:s0

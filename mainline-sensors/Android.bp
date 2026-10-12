@@ -1,0 +1,13 @@
+cc_binary {
+    name: "android.hardware.sensors-service.osprey",
+    vendor: true,
+    relative_install_path: "hw",
+    srcs: ["main.cpp", ":sensors_aidl_default_sources"],
+    local_include_dirs: ["include"],
+    shared_libs: ["libbinder_ndk", "liblog"],
+    static_libs: ["android.hardware.common-V2-ndk", "android.hardware.common.fmq-V1-ndk",
+        "android.hardware.sensors-V3-ndk", "android.system.suspend-V1-ndk",
+        "libbase", "libcutils", "libfmq", "libpower", "libutils"],
+    init_rc: ["sensors-osprey.rc"],
+    vintf_fragments: ["sensors-osprey.xml"],
+}
