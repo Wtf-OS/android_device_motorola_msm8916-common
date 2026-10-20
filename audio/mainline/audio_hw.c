@@ -84,6 +84,8 @@ static int setup_speaker(void)
         !mixer_ctl_set_value(volume, 0, 76) &&
         !mixer_ctl_set_enum_by_string(route, "RX1") &&
         !mixer_ctl_set_value(enable, 0, 1)) ret = 0;
+    struct mixer_ctl *dsp = mixer_get_ctl_by_name(mixer, "PRI_MI2S_RX Audio Mixer MultiMedia1");
+    if (dsp && mixer_ctl_set_value(dsp, 0, 1)) ret = -ENODEV;
     mixer_close(mixer);
     return ret;
 }
@@ -343,10 +345,14 @@ static ssize_t in_read(struct audio_stream_in *stream, void *buffer, size_t byte
         }
         struct mixer_ctl *adc2 = mixer ? mixer_get_ctl_by_name(mixer, "ADC2 MUX") : NULL;
         if (!adc2 || mixer_ctl_set_enum_by_string(adc2, "INP3")) ret = -ENODEV;
+        struct mixer_ctl *dsp = mixer ? mixer_get_ctl_by_name(mixer, "MultiMedia2 Mixer TERT_MI2S_TX") : NULL;
+        bool qdsp6 = dsp != NULL;
+        if (dsp && mixer_ctl_set_value(dsp, 0, 1)) ret = -ENODEV;
         if (mixer) mixer_close(mixer);
         if (!ret) {
             struct pcm_config config = { .channels = 2, .rate = 48000,
-                .period_size = 6144, .period_count = 2, .format = PCM_FORMAT_S16_LE };
+                .period_size = qdsp6 ? 960 : 6144,
+                .period_count = qdsp6 ? 4 : 2, .format = PCM_FORMAT_S16_LE };
             in->frames_read = 0;
             in->pcm = pcm_open(0, 1, PCM_IN | PCM_MONOTONIC, &config);
             if (!in->pcm || !pcm_is_ready(in->pcm)) {

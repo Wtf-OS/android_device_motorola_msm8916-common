@@ -1,0 +1,195 @@
+{
+  "Comment": "Osprey mainline: kernel owns cooling. CPU shutdown from donor thermal-engine.conf; CPU/GPU passive thresholds from mainline DTS. No calibrated skin sensor.",
+  "Sensors": [
+    {
+      "Name": "cpu0-1-thermal",
+      "Type": "CPU",
+      "Multiplier": 0.001,
+      "HotThreshold": [
+        "NAN",
+        "NAN",
+        75,
+        85,
+        "NAN",
+        "NAN",
+        97
+      ],
+      "HotHysteresis": [
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "Monitor": true,
+      "PollingDelay": 5000,
+      "PassiveDelay": 2000,
+      "TripPointIgnorable": true
+    },
+    {
+      "Name": "cpu2-3-thermal",
+      "Type": "CPU",
+      "Multiplier": 0.001,
+      "HotThreshold": [
+        "NAN",
+        "NAN",
+        75,
+        85,
+        "NAN",
+        "NAN",
+        97
+      ],
+      "HotHysteresis": [
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "Monitor": true,
+      "PollingDelay": 5000,
+      "PassiveDelay": 2000,
+      "TripPointIgnorable": true
+    },
+    {
+      "Name": "gpu-thermal",
+      "Type": "GPU",
+      "Multiplier": 0.001,
+      "HotThreshold": [
+        "NAN",
+        "NAN",
+        75,
+        "NAN",
+        "NAN",
+        "NAN",
+        95
+      ],
+      "HotHysteresis": [
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "Monitor": true,
+      "PollingDelay": 5000,
+      "PassiveDelay": 2000,
+      "TripPointIgnorable": true
+    },
+    {
+      "Name": "max170xx_battery",
+      "Type": "BATTERY",
+      "Multiplier": 0.001,
+      "HotThreshold": [
+        "NAN",
+        44,
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN"
+      ],
+      "HotHysteresis": [
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "Monitor": true,
+      "PollingDelay": 5000,
+      "PassiveDelay": 2000,
+      "TripPointIgnorable": true
+    },
+    {
+      "Name": "modem-thermal",
+      "Type": "UNKNOWN",
+      "Multiplier": 0.001,
+      "HotThreshold": [
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN"
+      ],
+      "HotHysteresis": [
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "Monitor": true,
+      "PollingDelay": 5000,
+      "PassiveDelay": 2000,
+      "TripPointIgnorable": true
+    },
+    {
+      "Name": "camera-thermal",
+      "Type": "UNKNOWN",
+      "Multiplier": 0.001,
+      "HotThreshold": [
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN"
+      ],
+      "HotHysteresis": [
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "Monitor": true,
+      "PollingDelay": 5000,
+      "PassiveDelay": 2000,
+      "TripPointIgnorable": true
+    },
+    {
+      "Name": "pm8916-thermal",
+      "Type": "UNKNOWN",
+      "Multiplier": 0.001,
+      "HotThreshold": [
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN",
+        "NAN"
+      ],
+      "HotHysteresis": [
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "Monitor": true,
+      "PollingDelay": 5000,
+      "PassiveDelay": 2000,
+      "TripPointIgnorable": true
+    }
+  ],
+  "CoolingDevices": []
+}

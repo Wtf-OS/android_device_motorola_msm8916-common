@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MediaCodecs>
+    <Encoders>
+        <MediaCodec name="c2.v4l2.avc.encoder" type="video/avc">
+            <Limit name="size" min="96x96" max="1920x1088" />
+            <Limit name="alignment" value="2x2" />
+            <Limit name="block-size" value="16x16" />
+            <Limit name="blocks-per-second" range="1-244800" />
+            <Limit name="bitrate" range="64000-20000000" />
+            <Limit name="concurrent-instances" max="1" />
+        </MediaCodec>
+    </Encoders>
+</MediaCodecs>

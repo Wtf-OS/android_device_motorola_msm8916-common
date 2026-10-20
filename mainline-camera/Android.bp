@@ -57,3 +57,49 @@ install_symlink {
     installed_location: "lib/hw/camera.osprey.so",
     symlink_target: "libcamera-hal.so",
 }
+
+// Static AArch64 utility for this ARM32 product's 64-bit kernel; no 64-bit Android libraries.
+cc_prebuilt_binary {
+    name: "osprey_raw64_worker",
+    vendor: true,
+    compile_multilib: "32",
+    stem: "raw64_worker",
+    srcs: ["prebuilt/raw64_worker"],
+    relative_install_path: "libcamera",
+    check_elf_files: false,
+    strip: { none: true },
+    stl: "none",
+    shared_libs: [],
+}
+
+// Static AArch64 utility for this ARM32 product's 64-bit kernel; no 64-bit Android libraries.
+cc_prebuilt_binary {
+    name: "osprey_jpeg64_worker",
+    vendor: true,
+    compile_multilib: "32",
+    stem: "jpeg64_worker",
+    srcs: ["prebuilt/jpeg64_worker"],
+    relative_install_path: "libcamera",
+    check_elf_files: false,
+    strip: { none: true },
+    stl: "none",
+    shared_libs: [],
+}
+
+// Preserve the validated private Codec2 dependency closure instead of a second install recipe.
+cc_prebuilt_binary {
+    name: "android.hardware.media.c2-service-v4l2",
+    prefer: true,
+    vendor: true,
+    compile_multilib: "32",
+    srcs: ["codec2-runtime/bin/hw/android.hardware.media.c2-service-v4l2"],
+    relative_install_path: "hw",
+    init_rc: [":v4l2_codec2_init_rc"],
+    vintf_fragments: [":v4l2_codec2_vintf_fragment"],
+    required: ["android.hardware.media.c2-default-seccomp_policy"],
+    check_elf_files: false,
+    strip: { none: true },
+    stl: "none",
+    system_shared_libs: [],
+    shared_libs: [],
+}

@@ -2,9 +2,8 @@ service vendor.osprey-radio /vendor/bin/hw/android.hardware.radio-service.osprey
     class late_start
     user root
     group radio root
-    seclabel u:r:init:s0
     disabled
 
-on property:init.svc.osprey-modem=running
+on property:init.svc.vendor.osprey-modem=running
     start vendor.osprey-radio
 

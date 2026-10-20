@@ -1,0 +1,8 @@
+vendor.minigbm.debug u:object_r:vendor_osprey_minigbm_prop:s0 exact string
+ro.vendor.osprey.mainline_bpf_compat u:object_r:vendor_osprey_bpf_prop:s0 exact bool
+
+vendor.display.vds_allow_hwc u:object_r:vendor_osprey_display_prop:s0 exact bool
+
+ro.vendor.camera.req.fmq.size u:object_r:vendor_osprey_camera_queue_prop:s0 exact int
+
+ro.vendor.camera.res.fmq.size u:object_r:vendor_osprey_camera_queue_prop:s0 exact int

@@ -1,0 +1,293 @@
+{
+  "scope": "Validated ARM32 Venus Codec2 runtime checkpoint for Android17 mainline",
+  "files": [
+    {
+      "path": "bin/hw/android.hardware.media.c2-service-v4l2",
+      "sha256": "8129908071f8e5edb187f305f6976eb320f59fe4a86b9aa91c014b0309ea221d"
+    },
+    {
+      "path": "etc/init/android.hardware.media.c2-service-v4l2.rc",
+      "sha256": "be49533bddf254ba380479cbd893ea3539f969f86a535f7ef521bf2ac3594b65"
+    },
+    {
+      "path": "etc/seccomp_policy/android.hardware.media.c2-default-seccomp_policy",
+      "sha256": "aee1ff11cfab7d76c6c89bda2c1bced4ac060aa845d1aa9f957b1543ed43731c"
+    },
+    {
+      "path": "etc/vintf/manifest/android.hardware.media.c2-service-v4l2.xml",
+      "sha256": "36bde99a77d8c484e3d9aa72b34c4b6c83a2b7602f6096c8953eca7d59f85fbf"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.common-V2-ndk.so",
+      "sha256": "9eb50b614f9bd7f2f47b34496440b94c3a260c57b0667417a02ab77f04e18d49"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.common.fmq-V1-ndk.so",
+      "sha256": "e52417ec4e3691e71d164c6ab00af6a55397178c495ca84a44deeaaa7d2a9baa"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.allocator-V2-ndk.so",
+      "sha256": "6dc3bcd5d2a0174702f1ca2eed575027ee9580d92e6d63c36cc50f10ec97bf42"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.allocator@2.0.so",
+      "sha256": "ce8f6e7f08fd73cfd58936a1bbdc50f905ee3429fbb04bd9354770f2a609019c"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.allocator@3.0.so",
+      "sha256": "bec049b5f374f805216faa8bf65ed8700c420351aaea2aa945ebf04161489fac"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.allocator@4.0.so",
+      "sha256": "c785a9e82a167760d57d5b226f731ee278f4c69f9d7927d1bac68aee7e305c13"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.bufferqueue@1.0.so",
+      "sha256": "3e1874b6d3bd880f0be6a7e972f034ba1bc00741039dbfd4e6e5e8358bf9e83a"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.bufferqueue@2.0.so",
+      "sha256": "973ae41783e628b31d750b80dfa32512b1a173f7909da590f85e0385a629850a"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.common-V7-ndk.so",
+      "sha256": "d9edb01edbef886c3250d98ac6a8c45e966b841b79055733d3d0a0ca0dc858df"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.common@1.0.so",
+      "sha256": "e2184e2b4a6f141b3a44ed8e0a04bbf516b7759aeb61c039cc84366c9c3cd371"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.common@1.1.so",
+      "sha256": "f4d288560a8295ae9b0d3b1ba8d9af3eacc29ee94f1cf820c6b93c9bfff7eb4b"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.common@1.2.so",
+      "sha256": "4618276c7f0e86ad9545c8228c3eb2fbaf1b5001d461ff9176d1bb65d2eea116"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.mapper@2.0.so",
+      "sha256": "3bf5454515c57ca1f83c667f801a7959ed555e723d59b9ff3ad79d1a894de334"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.mapper@2.1.so",
+      "sha256": "a0dc529cc01ed60ba05691a6ecca6f9e61146ab8898017c9ea3fa01a277937a9"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.mapper@3.0.so",
+      "sha256": "b290d1fd2b186b4226ed68adee7854bf7d1ca9e7d74052421464d66b4e41f17c"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.graphics.mapper@4.0.so",
+      "sha256": "139f8a585cbde1f28d8bbbe0028ece7fa2fedc0001ccb23476962e60c741df14"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.media.bufferpool2-V2-ndk.so",
+      "sha256": "d1e660dbc40bf1f097b988fc3b334e1a356e37bda808bc53f96c56ceb30790f9"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.media.bufferpool@1.0.so",
+      "sha256": "0d53e757ceb7287c0e4e5c94a7c404c04597cb42dde5c5c0a249738acf1129eb"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.media.bufferpool@2.0.so",
+      "sha256": "3f4561e687669f125c2039b061e309542affce43d74af9d12a1f0fb5eb855eb5"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.media.c2-V1-ndk.so",
+      "sha256": "d18a8e114638c9846a4f3ca0d52e10f2c6309a536a83e4446306429c5c726711"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.media.c2@1.0.so",
+      "sha256": "2ce4dd7e20ec876558ff516884e8ec0fce1c8736eadb70a4788db4b264a2b218"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.media.c2@1.1.so",
+      "sha256": "79f6769ac83b04cf6ca129b942dac9bda4f7dcd7e6683d7b3fc460fab9603ef5"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.media.c2@1.2.so",
+      "sha256": "18294bfa974dbd2b52a5fbefdc391a8260c7aee070f75da3685bc691c7af0630"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.media.omx@1.0.so",
+      "sha256": "2a0211a493c161d9709e346a164a76bea31bc39f1adffdf74a60b329f63e3e13"
+    },
+    {
+      "path": "lib/venus-codec2/android.hardware.media@1.0.so",
+      "sha256": "4197cdd46f6e250bb52101f49f3a4804f56b4b1a989928b8790007b83b8ddc9a"
+    },
+    {
+      "path": "lib/venus-codec2/android.hidl.memory.token@1.0.so",
+      "sha256": "aff62926b8d78740b26ba06975660bfde11e4929ec15fd841f172ab8da303d1e"
+    },
+    {
+      "path": "lib/venus-codec2/android.hidl.memory@1.0.so",
+      "sha256": "b30feb6e4a1664baded232bba1b748e4b0747b47243e7bf6f651286ed05f6728"
+    },
+    {
+      "path": "lib/venus-codec2/android.hidl.safe_union@1.0.so",
+      "sha256": "2aca27f6c71d1759538dd616054671db311fd5d834a3b501bb1f49de56a860ed"
+    },
+    {
+      "path": "lib/venus-codec2/android.hidl.token@1.0-utils.so",
+      "sha256": "4d4cdfe266cd7fd5262c22253831a6cc17dc7a1b7d325a627d88eefb5f596d0c"
+    },
+    {
+      "path": "lib/venus-codec2/android.hidl.token@1.0.so",
+      "sha256": "5d56e9164b1da9ac75282727722bc3e452452692aca77d57038498a5a5d85a1e"
+    },
+    {
+      "path": "lib/venus-codec2/libaconfig_storage_read_api_cc.so",
+      "sha256": "75dc981485bf1207dbb63db9a290d33d5e3d475cda8655231dce275e13d59596"
+    },
+    {
+      "path": "lib/venus-codec2/libavservices_minijail.so",
+      "sha256": "fa3906418846b6d5b825fae2ab6575eb381549d07be6c27b835d58120a906282"
+    },
+    {
+      "path": "lib/venus-codec2/libbase.so",
+      "sha256": "c3f5a1b57e4e20f30be3f1e73b798eb50ee2354a60b57607db794fc9f582c13f"
+    },
+    {
+      "path": "lib/venus-codec2/libc++.so",
+      "sha256": "abe48751fa976b69023456a52289b51005b0dcdef62a515da3aa4bcbd787319b"
+    },
+    {
+      "path": "lib/venus-codec2/libc2plugin_store.so",
+      "sha256": "cbe7ef603c7aa6faa82a68f9b108f813de341d64859ce3eb000c7ab0a8a3c306"
+    },
+    {
+      "path": "lib/venus-codec2/libcap.so",
+      "sha256": "a53fa28d0ea42b478f219c3011e064dfcfc383cece45f4792de192447cf855d7"
+    },
+    {
+      "path": "lib/venus-codec2/libchrome.so",
+      "sha256": "fb3542c5fd5acd2a7cb45c3c2c7e13e092535e731e5609897fe66c14dd674919"
+    },
+    {
+      "path": "lib/venus-codec2/libcodec2.so",
+      "sha256": "c4a13e8bfe8a932fab1f2aa549e3c79e380cb87e3057c42ae685a04249db7ba8"
+    },
+    {
+      "path": "lib/venus-codec2/libcodec2_aidl.so",
+      "sha256": "feb18041791d92186f65253bd896603a0ca8035975fd9754f741c53e5168463e"
+    },
+    {
+      "path": "lib/venus-codec2/libcodec2_hal_common.so",
+      "sha256": "263d2d7cca703803ff2d0d181a37ebca134aa0a8e5c3c21ff05852e8f39caf7b"
+    },
+    {
+      "path": "lib/venus-codec2/libcodec2_hidl@1.0.so",
+      "sha256": "0dc8d0cfeb22910670a4d58647edc1e58e6d23d5ed95634694e81e2c87d6fbf6"
+    },
+    {
+      "path": "lib/venus-codec2/libcodec2_hidl@1.1.so",
+      "sha256": "c5e040b0b835b908b06909ba5519c5c6bbee599b4de4d688620d5318ad07ddb9"
+    },
+    {
+      "path": "lib/venus-codec2/libcodec2_hidl@1.2.so",
+      "sha256": "1150c650883a3690c89cd585c46cf50d87f4b08a8a72398efe077671c62e7d72"
+    },
+    {
+      "path": "lib/venus-codec2/libcodec2_hidl_plugin.so",
+      "sha256": "eb3cecd3109e1d51bad2344ed94c62c41de1b45e054f650a3bba46a27d1813a9"
+    },
+    {
+      "path": "lib/venus-codec2/libcodec2_soft_common.so",
+      "sha256": "6a6117c66f3ec3444eedee91b1c6efc86211fdf96511d619a8f1b6a04ddbfb2b"
+    },
+    {
+      "path": "lib/venus-codec2/libcodec2_vndk.so",
+      "sha256": "ac1d56207002275a04a2f7a8cde5f95c304287b854c209e28d92f69d61a4f743"
+    },
+    {
+      "path": "lib/venus-codec2/libcutils.so",
+      "sha256": "4012c3ce93d40462a0a3c4d3fa6ee58068ece787bd8b0b30c8bead79da7ff72e"
+    },
+    {
+      "path": "lib/venus-codec2/libdmabufheap.so",
+      "sha256": "483710d80f794fe9d14b4985284d8aa19676aa7524c5a22f0c38cc193510122f"
+    },
+    {
+      "path": "lib/venus-codec2/libevent.so",
+      "sha256": "10162cf683a6a9600a75656f0b51742e31dabc475c5efd5ae6e1a6651c2130ee"
+    },
+    {
+      "path": "lib/venus-codec2/libfmq.so",
+      "sha256": "935252d422f1d3851b003149c01caee7700d05c2fb483a0ba254cc7d7fa9dc57"
+    },
+    {
+      "path": "lib/venus-codec2/libgralloctypes.so",
+      "sha256": "ca7cef79af9951fceb03177197c15569ac9791852ab5495f22ae11c51f885417"
+    },
+    {
+      "path": "lib/venus-codec2/libhardware.so",
+      "sha256": "cc6fbe0bf11ff994afddc561367fe88f69b7ada6891f5924e9a95f496f9fa82f"
+    },
+    {
+      "path": "lib/venus-codec2/libhidlbase.so",
+      "sha256": "78690154694b329d95b60e7bde96057cc09a5e2eeb94642aa0415050ca31562a"
+    },
+    {
+      "path": "lib/venus-codec2/libhidlmemory.so",
+      "sha256": "f0a8f66244a899bcaacac878c01b0a95206c0994765efc4b02e35346906e8b9b"
+    },
+    {
+      "path": "lib/venus-codec2/libminijail.so",
+      "sha256": "6220a0adabf64b46c1cce5d473572acd914dd45ac98da635aa92567ecd39d988"
+    },
+    {
+      "path": "lib/venus-codec2/libsfplugin_ccodec_utils.so",
+      "sha256": "076583599b16e68436893828ff0663af22670affd7c715365d5c2cc8719f4d3f"
+    },
+    {
+      "path": "lib/venus-codec2/libstagefright_aidl_bufferpool2.so",
+      "sha256": "28f96367848c7a80d820e10a2f685c122434b4d85049813eb4e404582a4b9cfa"
+    },
+    {
+      "path": "lib/venus-codec2/libstagefright_bufferpool@1.0.so",
+      "sha256": "6149a0f898e6aacfed6b027d47d0df31fa1dec1e7d82092b90f40317f7d60d1b"
+    },
+    {
+      "path": "lib/venus-codec2/libstagefright_bufferpool@2.0.1.so",
+      "sha256": "0441fcaec07e54ed40ec46e980bea01e90baeccdeb541e75d26ee89c21c444c7"
+    },
+    {
+      "path": "lib/venus-codec2/libstagefright_bufferqueue_helper.so",
+      "sha256": "9c9c10ba7d9a98cf4889f331a5af721292ce112d51275c1c361ad7ac33e2275c"
+    },
+    {
+      "path": "lib/venus-codec2/libstagefright_foundation.so",
+      "sha256": "1c321f7b0571014ba321c9e02cfdd705d7c7845c65e0e7a32f72231b9fe63e52"
+    },
+    {
+      "path": "lib/venus-codec2/libui.so",
+      "sha256": "96dd0c93fb99544c3a021669d85b6d63b70e96a5bfc12689d08aa5d3201b4665"
+    },
+    {
+      "path": "lib/venus-codec2/libutils.so",
+      "sha256": "c694207746b03f74cb267f6a034ba3b2449382a1d089c2efaf4862a1253954c0"
+    },
+    {
+      "path": "lib/venus-codec2/libv4l2_codec2_common.so",
+      "sha256": "41d227dccb1201675bbee2cbe5d02c3ac23f9b9c90b7e8e19ef95671910091c3"
+    },
+    {
+      "path": "lib/venus-codec2/libv4l2_codec2_components.so",
+      "sha256": "3158e50c70850676a2b2f97e84de44bc0917495ae4808ecb05614b140eae7419"
+    },
+    {
+      "path": "lib/venus-codec2/libv4l2_codec2_v4l2.so",
+      "sha256": "05dc370e2031550387adccae2bae2aafe67ce01f0c4f3c29bbeace62214220f0"
+    },
+    {
+      "path": "lib/venus-codec2/server_configurable_flags.so",
+      "sha256": "630fae63ffc5a5293d16abf866b5413e337679e6018f3b8d08734b81a406f743"
+    }
+  ],
+  "source": "external/v4l2_codec2 and Android vendor dependency closure; service RUNPATH=$ORIGIN/../../lib/venus-codec2; libraries RUNPATH=$ORIGIN",
+  "validation": "All71 payload hashes matched running ZY2223C9DZ before promotion; snapshot/Stop film and AAC fully decode",
+  "kernel": "Kernel modules intentionally excluded; use canonical mainline-boot/modules",
+  "rebuild": "Rebuild source service/dependency closure, isolate library directory, set and verify RUNPATH, then replace this checkpoint and hashes together."
+}

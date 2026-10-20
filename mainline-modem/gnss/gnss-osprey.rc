@@ -1,0 +1,6 @@
+service vendor.gnss-osprey /vendor/bin/hw/android.hardware.gnss-service.osprey
+    class hal
+    user gps
+    group gps radio
+    seclabel u:r:hal_gnss_default:s0
+    interface aidl android.hardware.gnss.IGnss/default

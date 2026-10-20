@@ -1,0 +1,11 @@
+cc_binary {
+    name: "android.hardware.gnss-service.osprey",
+    vendor: true,
+    relative_install_path: "hw",
+    defaults: ["gnss_use_latest_hal_aidl_ndk_shared"],
+    shared_libs: ["libbinder_ndk", "liblog"],
+    srcs: ["gnss.cpp"],
+    cflags: ["-Wall", "-Wextra", "-Wno-unused-parameter"],
+    init_rc: ["gnss-osprey.rc"],
+    vintf_fragments: ["gnss-osprey.xml"],
+}

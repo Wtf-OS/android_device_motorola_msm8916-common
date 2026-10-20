@@ -1,0 +1,109 @@
+# Labels are limited to the physical osprey devices in genfs_contexts.
+type vendor_sysfs_osprey_sensors, fs_type, sysfs_type;
+type vendor_sysfs_osprey_rmtfs, fs_type, sysfs_type;
+type vendor_sysfs_osprey_remoteproc, fs_type, sysfs_type;
+type vendor_sysfs_osprey_modem_state, fs_type, sysfs_type;
+type vendor_osprey_rmtfs_device, dev_type;
+type vendor_osprey_modem_block_device, dev_type;
+type vendor_osprey_firmware_file, file_type, vendor_file_type;
+type vendor_osprey_rmtfs_data_file, file_type, data_file_type;
+type vendor_osprey_rmtfs, domain;
+type vendor_osprey_rmtfs_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(vendor_osprey_rmtfs)
+
+allow hal_sensors_default vendor_sysfs_osprey_sensors:dir r_dir_perms;
+allow hal_sensors_default vendor_sysfs_osprey_sensors:file r_file_perms;
+# AIDL FMQ uses the memfd-backed queue passed by SensorService.
+allow hal_sensors_default system_server_tmpfs:file { read write getattr map };
+allow { hal_radio_default hal_gnss_default } radio_device:chr_file { open read write getattr };
+# libdrm enumerates card metadata; rendering still uses the render node.
+allow { gpu_sphal_domain -isolated_app_all } graphics_device:chr_file getattr;
+
+allow vendor_osprey_rmtfs self:qipcrtr_socket { create bind read write getattr getopt setopt };
+allow vendor_osprey_rmtfs vendor_osprey_rmtfs_device:chr_file { open read write getattr map ioctl };
+allow vendor_osprey_rmtfs vendor_sysfs_osprey_rmtfs:dir r_dir_perms;
+allow vendor_osprey_rmtfs vendor_sysfs_osprey_rmtfs:file r_file_perms;
+allow vendor_osprey_rmtfs vendor_sysfs_osprey_remoteproc:dir r_dir_perms;
+allow vendor_osprey_rmtfs vendor_sysfs_osprey_remoteproc:file r_file_perms;
+# Only modem start/stop needs a writable sysfs attribute.
+allow vendor_osprey_rmtfs vendor_sysfs_osprey_modem_state:file { open write getattr };
+allow vendor_osprey_rmtfs sysfs:dir r_dir_perms;
+allow vendor_osprey_rmtfs sysfs:lnk_file r_file_perms;
+allow vendor_osprey_rmtfs vendor_osprey_rmtfs_data_file:dir r_dir_perms;
+allow vendor_osprey_rmtfs vendor_osprey_rmtfs_data_file:lnk_file r_file_perms;
+# -r keeps EFS writes in RAM; never grant block-device writes.
+allow vendor_osprey_rmtfs vendor_osprey_modem_block_device:blk_file { open read getattr };
+allow kernel vendor_osprey_firmware_file:file r_file_perms;
+allow kernel vendor_osprey_firmware_file:dir search;
+allow kernel vendor_osprey_firmware_file:system firmware_load;
+
+vendor_restricted_prop(vendor_osprey_minigbm_prop)
+vendor_restricted_prop(vendor_osprey_bpf_prop)
+get_prop({ gpu_sphal_domain -isolated_app_all }, vendor_osprey_minigbm_prop)
+get_prop({ bpfloader netd }, vendor_osprey_bpf_prop)
+set_prop(vendor_init, vendor_osprey_minigbm_prop)
+set_prop(vendor_init, vendor_osprey_bpf_prop)
+
+vndbinder_use(hal_camera_default)
+allow vendor_osprey_rmtfs block_device:dir search;
+
+type vendor_sysfs_osprey_camera, fs_type, sysfs_type;
+allow hal_camera_default vendor_sysfs_osprey_camera:dir r_dir_perms;
+allow hal_camera_default vendor_sysfs_osprey_camera:file r_file_perms;
+allow hal_camera_default vendor_sysfs_osprey_camera:lnk_file r_file_perms;
+allow hal_camera_default sysfs_leds:dir search;
+
+type vendor_osprey_ipa_exec, exec_type, vendor_file_type, file_type;
+type vendor_sysfs_osprey_flash, fs_type, sysfs_type;
+type vendor_sysfs_osprey_firmware_path, fs_type, sysfs_type;
+type vendor_sysfs_osprey_framebuffer_unbind, fs_type, sysfs_type;
+type vendor_sysfs_osprey_backlight_class, fs_type, sysfs_type;
+# libcamera isolates the ISP worker with CLONE_NEWUSER and CLONE_NEWNET.
+allow hal_camera_default self:user_namespace create;
+allow hal_camera_default self:cap_userns sys_admin;
+type vendor_osprey_ipa, domain;
+type vendor_osprey_ipa_tmpfs, file_type;
+domain_auto_trans(hal_camera_default, vendor_osprey_ipa_exec, vendor_osprey_ipa)
+tmpfs_domain(vendor_osprey_ipa)
+allow vendor_osprey_ipa hal_camera_default:fd use;
+allow hal_camera_default vendor_osprey_ipa:fd use;
+allow vendor_osprey_ipa hal_camera_default:unix_dgram_socket { read write getattr getopt setopt sendto };
+allow vendor_osprey_ipa hal_camera_default:memfd_file { read write getattr map };
+allow hal_camera_default vendor_osprey_ipa:memfd_file { read write getattr map };
+allow vendor_osprey_ipa vendor_configs_file:file r_file_perms;
+allow hal_camera_default vendor_sysfs_osprey_flash:dir search;
+allow hal_camera_default vendor_sysfs_osprey_flash:file rw_file_perms;
+# Init creates only the EFS directory and links; rmtfs keeps writes in RAM.
+allow vendor_init vendor_osprey_rmtfs_data_file:dir create_dir_perms;
+allow vendor_init vendor_osprey_rmtfs_data_file:lnk_file create_file_perms;
+
+allow init vendor_sysfs_osprey_firmware_path:file w_file_perms;
+# QRTR's reserved control port requires this capability in the kernel.
+allow vendor_osprey_rmtfs self:capability net_admin;
+allow block_device device:filesystem associate;
+allow init vendor_sysfs_osprey_framebuffer_unbind:file w_file_perms;
+allow hal_graphics_composer_default vendor_sysfs_osprey_backlight_class:dir r_dir_perms;
+allow hal_light_default vendor_sysfs_osprey_backlight_class:dir search;
+type vendor_osprey_firmware_fs, fs_type, contextmount_type;
+allow vendor_osprey_firmware_file vendor_osprey_firmware_fs:filesystem associate;
+allow installd vendor_osprey_firmware_fs:filesystem quotaget;
+# Native devtmpfs also creates and removes the parent directory for DRM nodes.
+allow kernel device:dir { create rmdir };
+vendor_restricted_prop(vendor_osprey_display_prop)
+get_prop(surfaceflinger, vendor_osprey_display_prop)
+set_prop(vendor_init, vendor_osprey_display_prop)
+hal_client_domain(hal_thermal_default, hal_power)
+hal_client_domain(hal_camera_default, hal_graphics_allocator)
+vendor_restricted_prop(vendor_osprey_camera_queue_prop)
+get_prop(hal_camera_default, vendor_osprey_camera_queue_prop)
+set_prop(vendor_init, vendor_osprey_camera_queue_prop)
+hal_client_domain(hal_graphics_composer_default, hal_graphics_allocator)
+
+# RAW64 receives two frame FDs over a private inherited socket; it opens no camera device.
+type vendor_osprey_raw64_exec, exec_type, vendor_file_type, file_type;
+type vendor_osprey_raw64, domain;
+domain_auto_trans(hal_camera_default, vendor_osprey_raw64_exec, vendor_osprey_raw64)
+allow vendor_osprey_raw64 hal_camera_default:fd use;
+allow vendor_osprey_raw64 hal_camera_default:memfd_file { getattr map read write };
+allow vendor_osprey_raw64 hal_camera_default:unix_stream_socket { read write getattr };
+allow hal_camera_default vendor_osprey_raw64:process sigkill;

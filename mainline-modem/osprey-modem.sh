@@ -3,6 +3,7 @@ set -eu
 ROOT=/data/vendor/osprey-modem
 mkdir -p "$ROOT/efs"
 chmod 0700 "$ROOT" "$ROOT/efs"
+restorecon -RF /vendor/firmware /vendor/bin/osprey-rmtfs "$ROOT"
 for mapping in modemst1:19 modemst2:20 fsg:23 fsc:24; do
     name=${mapping%:*}
     number=${mapping#*:}

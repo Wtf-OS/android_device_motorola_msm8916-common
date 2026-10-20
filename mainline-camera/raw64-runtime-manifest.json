@@ -1,0 +1,14 @@
+{
+  "scope": "ARM32 Android 17 camera, static AArch64 RAW10 photo helper on mainline ARM64 kernel",
+  "files": {
+    "lib/libcamera.so": "de12ccc4045b58cb020e6e0b018bf996e8c733eb570644b240b30e1916727b31",
+    "bin/libcamera/raw64_worker": "a69ea745331e8f3f827e28a8a4526c6b421423738faa6b201c1db8d50f2da569"
+  },
+  "selinux_exec_type": "vendor_osprey_raw64_exec",
+  "runtime_domain": "vendor_osprey_raw64",
+  "limits": [
+    "Only validated full-height RAW10 NV12 photos above 8MP with colour boost and no CCM.",
+    "Unsupported geometry and preview/front use the existing CPU path.",
+    "No buffer reuse before valid reply or pidfd-confirmed worker death."
+  ]
+}

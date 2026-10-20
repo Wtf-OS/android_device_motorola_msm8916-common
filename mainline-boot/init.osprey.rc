@@ -1,14 +1,123 @@
 on early-init
+    setprop bluetooth.core.le.vendor_capabilities.enabled false
+    setprop ro.vendor.camera.res.fmq.size 1048576
+    setprop ro.vendor.camera.req.fmq.size 1048576
     mount tmpfs tmpfs /metadata mode=0755
 
 on init
-    start osprey-early-log
+    restorecon /vendor/bin/libcamera/softisp_ipa_proxy
     mkdir /dev/usb-ffs 0775 shell shell
     setprop sys.usb.configfs 1
-    setprop sys.usb.controller 78d9000.usb
+    setprop sys.usb.controller ci_hdrc.0
     setprop vendor.hwc.drm.device /dev/dri/card1
     wait /dev/block/mmcblk0p1 10
-    exec_start osprey-hardware
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/fuse.ko
+    mkdir /config 0755 root root
+    mount configfs configfs /config
+    mkdir /dev/usb-ffs/adb 0770 shell shell
+    mkdir /config/usb_gadget/g1 0770 system system
+    mkdir /config/usb_gadget/g1/strings/0x409 0770 system system
+    mkdir /config/usb_gadget/g1/configs/b.1 0770 system system
+    mkdir /config/usb_gadget/g1/configs/b.1/strings/0x409 0770 system system
+    mkdir /config/usb_gadget/g1/functions/ffs.adb 0770 system system
+    write /config/usb_gadget/g1/idVendor 0x18d1
+    write /config/usb_gadget/g1/idProduct 0x4ee7
+    write /config/usb_gadget/g1/strings/0x409/manufacturer Motorola
+    write /config/usb_gadget/g1/strings/0x409/serialnumber ${ro.serialno}
+    write /config/usb_gadget/g1/strings/0x409/product "Moto G3 Android mainline"
+    write /config/usb_gadget/g1/configs/b.1/MaxPower 250
+    mkdir /config/usb_gadget/g1/functions/ffs.mtp 0770 system system
+    mkdir /dev/usb-ffs/mtp 0770 system mtp
+    mount functionfs mtp /dev/usb-ffs/mtp uid=1000,gid=1024,rmode=0770,fmode=0660
+    mkdir /config/usb_gadget/g1/functions/ffs.ptp 0770 system system
+    mkdir /dev/usb-ffs/ptp 0770 system mtp
+    mount functionfs ptp /dev/usb-ffs/ptp uid=1000,gid=1024,rmode=0770,fmode=0660
+    mount functionfs adb /dev/usb-ffs/adb uid=2000,gid=2000,rmode=0770,fmode=0660
+    setprop sys.usb.controller ci_hdrc.0
+    mount ext4 /dev/block/mmcblk0p1 /firmware ro noload,context=u:object_r:vendor_osprey_firmware_file:s0,fscontext=u:object_r:vendor_osprey_firmware_fs:s0
+    write /sys/module/firmware_class/parameters/path /vendor/firmware
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/qcom_common.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/mdt_loader.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/qcom_pil_info.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/wcnss_ctrl.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/wcn36xx.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/qcom_wcnss_pil.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/interconnect_qcom.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/icc-smd-rpm.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/qnoc-msm8916.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/drm_exec.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/drm_gpuvm.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/gpu-sched.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/ubwc_config.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/cec.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/drm_display_helper.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/bd65b60.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/panel-motorola-osprey-inx.ko
+    write /sys/bus/platform/drivers/simple-framebuffer/unbind 83200000.framebuffer
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/msm.ko separate_gpu_kms=1
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/rmi_core.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/rmi_i2c.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/max17042_battery.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/snd.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/snd-timer.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/snd-pcm.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/snd-compress.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/snd-soc-core.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/qcom_pdr_msg.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/pdr_interface.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/apr.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/snd-q6dsp-common.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/q6core.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/q6afe.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/q6afe-clocks.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/q6afe-dai.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/q6adm.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/q6routing.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/q6asm.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/q6asm-dai.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/snd-soc-qcom-common.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/snd-soc-msm8916-analog.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/snd-soc-msm8916-digital.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/snd-soc-apq8016-sbc.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/fan54046-monitor.ko control_charging=1
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/af_key.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/btqca.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/btqcomsmd.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/xt_policy.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/xt_u32.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/xt_quota2.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/lzo_compress.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/zsmalloc.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/zram.ko
+    wait /dev/block/zram0 10
+    restorecon /dev/block/zram0
+    swapon_all /vendor/etc/fstab.osprey
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/i2c-qcom-cci.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/mc.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/videodev.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/v4l2-cci.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/v4l2-async.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/v4l2-fwnode.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/videobuf2-common.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/videobuf2-memops.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/videobuf2-dma-sg.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/videobuf2-v4l2.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/qcom-camss.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/ak7375.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/s5k3m2.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/s5k5e2.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/i2c-dev.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/led-class-flash.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/leds-sky81296.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/ak8975.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/stml0xx-accel.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/videobuf2-dma-contig.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/v4l2-mem2mem.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/venus-core.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/venus-enc.ko
+    chown system system /sys/class/backlight/osprey-backlight/brightness
+    chmod 0660 /sys/class/backlight/osprey-backlight/brightness
+
 
 on fs
     mount_all /vendor/etc/fstab.osprey --early
@@ -18,35 +127,40 @@ on late-fs
 
 on boot
     setprop sys.usb.configfs 1
-    setprop sys.usb.config adb
+    setprop sys.usb.config ${persist.sys.usb.config:-adb}
 
-service osprey-hardware /system/bin/sh /vendor/bin/osprey-hardware.sh
-    user root
-    group root
-    oneshot
-    disabled
-    seclabel u:r:init:s0
-    stdio_to_kmsg
 
 on property:sys.boot_completed=1
     stop osprey-boot-log
 
-service osprey-boot-log /system/bin/logcat -b all -v threadtime -f /data/local/tmp/osprey-a16-boot.log -r 4096 -n 3
-    user root
-    group root log readproc
+service osprey-boot-log /system/bin/logcat -b all -v threadtime -f /data/misc/logd/osprey-boot.log -r 4096 -n 3
+    user logd
+    group log readproc
     class late_start
-    seclabel u:r:shell:s0
-
-# Capture the early abort reason before log files on Data are available.
-service osprey-early-log /system/bin/logcat -b all -v threadtime -s keystore2:W libc:F DEBUG:F crash_dump32:W tombstoned:W
     disabled
-    user root
-    group root log readproc
-    seclabel u:r:shell:s0
-    stdio_to_kmsg
+    task_profiles ServiceCapacityLow
 
-on property:sys.boot_completed=1
-    stop osprey-early-log
 
 on post-fs-data
+    mkdir /data/misc/logd 0750 logd log
+    restorecon_recursive /data/misc/logd
     start osprey-boot-log
+
+on property:sys.usb.config=adb && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/idProduct 0x4ee7
+
+on property:sys.usb.config=mtp && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/idProduct 0x4ee1
+
+on property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/idProduct 0x4ee2
+
+on property:sys.usb.config=ptp && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/idProduct 0x4ee5
+
+on property:sys.usb.config=ptp,adb && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/idProduct 0x4ee6
+
+# Start after the kernel thermal zones and vendor config are available.
+on boot
+    setprop vendor.thermal.link_ready 1

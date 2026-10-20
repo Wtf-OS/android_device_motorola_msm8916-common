@@ -1,3 +1,4 @@
 /dev/block/mmcblk0p41 / ext4 ro wait
-/dev/block/mmcblk0p1 /firmware ext4 ro wait
 /dev/block/mmcblk0p42 /data ext4 noatime,nosuid,nodev wait,check,latemount
+
+/dev/block/zram0 none swap defaults wait,zramsize=536870912

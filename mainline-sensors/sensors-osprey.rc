@@ -3,4 +3,3 @@ service vendor.osprey-sensors /vendor/bin/hw/android.hardware.sensors-service.os
     user system
     group system
     rlimit rtprio 10 10
-    seclabel u:r:init:s0

@@ -2,6 +2,8 @@
 version: 1
 configuration:
   software_isp:
+    threads: 4
+    copy_input_buffer: true
     chroma_denoise: true
     colour_boost: true
     luma_denoise: true

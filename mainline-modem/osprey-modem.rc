@@ -1,5 +1,21 @@
-service osprey-modem /system/bin/sh /vendor/bin/osprey-modem.sh
+on post-fs-data
+    mkdir /data/vendor/osprey-modem 0700 root root
+    mkdir /data/vendor/osprey-modem/efs 0700 root root
+    restorecon_recursive /data/vendor/osprey-modem
+    restorecon_recursive /vendor/firmware
+    symlink /dev/block/mmcblk0p19 /data/vendor/osprey-modem/efs/modemst1
+    symlink /dev/block/mmcblk0p20 /data/vendor/osprey-modem/efs/modemst2
+    symlink /dev/block/mmcblk0p23 /data/vendor/osprey-modem/efs/fsg
+    symlink /dev/block/mmcblk0p24 /data/vendor/osprey-modem/efs/fsc
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/qcom_memshare.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/qcom_q6v5.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/qcom_q6v5_mss.ko
+    exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/rpmsg_wwan_ctrl.ko
+    # QDSP6 must register the PCM card before AudioPolicy opens primary audio.
+    start vendor.osprey-modem
+    wait /sys/class/sound/controlC0 15
+
+service vendor.osprey-modem /vendor/bin/osprey-rmtfs -r -P -o /data/vendor/osprey-modem/efs -s
     class late_start
     user root
     group root
-    seclabel u:r:init:s0

@@ -1,0 +1,7 @@
+{
+  "scope": "ARM32 camera HAL with static AArch64 NV12/NV21 JPEG helper for photos above 4MP, including front 5MP and rear 13MP. Smaller images and helper failures use the existing encoder.",
+  "files": {
+    "lib/hw/libcamera-hal.so": "3849d15ed14f11bef781e32000d11906e9693f0b24969a9456e84c5537a9065d",
+    "bin/libcamera/jpeg64_worker": "15bc0e67f973575d815821fc91048ad519307d0a328b15d4d603ea9be6aa7cdb"
+  }
+}

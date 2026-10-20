@@ -9,3 +9,7 @@
 /sys/class/leds/osprey:flash brightness 0660 cameraserver camera
 /sys/class/leds/osprey:flash flash_strobe 0660 cameraserver camera
 /dev/dma_heap/system 0664 system camera
+
+/dev/wwan0qmi0 0660 radio radio
+
+/dev/rfkill 0660 bluetooth bluetooth
