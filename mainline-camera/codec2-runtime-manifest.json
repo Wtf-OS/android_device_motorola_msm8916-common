@@ -271,15 +271,15 @@
     },
     {
       "path": "lib/venus-codec2/libv4l2_codec2_common.so",
-      "sha256": "41d227dccb1201675bbee2cbe5d02c3ac23f9b9c90b7e8e19ef95671910091c3"
+      "sha256": "e3860d11a779871b6646018aca062c72a64409fa58bbc9544275219c336f3a0e"
     },
     {
       "path": "lib/venus-codec2/libv4l2_codec2_components.so",
-      "sha256": "3158e50c70850676a2b2f97e84de44bc0917495ae4808ecb05614b140eae7419"
+      "sha256": "5d1690caf5c070261cb4a8e1056050eeb620e6ca985b39e5267667bd719b6aae"
     },
     {
       "path": "lib/venus-codec2/libv4l2_codec2_v4l2.so",
-      "sha256": "05dc370e2031550387adccae2bae2aafe67ce01f0c4f3c29bbeace62214220f0"
+      "sha256": "0b1e7a51e846d2519a8232e4018a0034447d99542865e68f157cd3794c365e7c"
     },
     {
       "path": "lib/venus-codec2/server_configurable_flags.so",
@@ -287,7 +287,7 @@
     }
   ],
   "source": "external/v4l2_codec2 and Android vendor dependency closure; service RUNPATH=$ORIGIN/../../lib/venus-codec2; libraries RUNPATH=$ORIGIN",
-  "validation": "All71 payload hashes matched running ZY2223C9DZ before promotion; snapshot/Stop film and AAC fully decode",
+  "validation": "All71 payload hashes matched running ZY2223C9DZ before promotion; snapshot/Stop film and AAC fully decode; updated components library verified with default scrcpy during a 12-second hardware AVC capture; corrected NV12 layout, verified decoded scrcpy screen and notification frames; off-thread input conversion verified with scrcpy touch latency A/B and screenrecord EOS",
   "kernel": "Kernel modules intentionally excluded; use canonical mainline-boot/modules",
   "rebuild": "Rebuild source service/dependency closure, isolate library directory, set and verify RUNPATH, then replace this checkpoint and hashes together."
 }
