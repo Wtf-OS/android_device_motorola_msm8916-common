@@ -92,6 +92,10 @@ on init
     wait /dev/block/zram0 10
     restorecon /dev/block/zram0
     swapon_all /vendor/etc/fstab.osprey
+    # 893 MB RAM: prefer zram over dropping file pages (refaults stall SystemUI),
+    # and swap in single pages since zram has no seek cost.
+    write /proc/sys/vm/swappiness 150
+    write /proc/sys/vm/page-cluster 0
     exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/i2c-qcom-cci.ko
     exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/mc.ko
     exec u:r:vendor_modprobe:s0 root root -- /vendor/bin/insmod /vendor/lib/modules/videodev.ko

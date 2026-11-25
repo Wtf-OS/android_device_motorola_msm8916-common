@@ -107,3 +107,6 @@ allow vendor_osprey_raw64 hal_camera_default:fd use;
 allow vendor_osprey_raw64 hal_camera_default:memfd_file { getattr map read write };
 allow vendor_osprey_raw64 hal_camera_default:unix_stream_socket { read write getattr };
 allow hal_camera_default vendor_osprey_raw64:process sigkill;
+# Init tunes reclaim for zram on the 1 GB device.
+type vendor_proc_osprey_swappiness, fs_type, proc_type;
+allow init vendor_proc_osprey_swappiness:file w_file_perms;
